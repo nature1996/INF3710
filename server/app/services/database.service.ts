@@ -5,17 +5,19 @@ import { Room } from "../../../common/tables/Room";
 import {schema} from "../createSchema";
 import {data} from "../populateDB";
 
+import { dataBaseConnection } from "../DBinfo";
+
 @injectable()
 export class DatabaseService {
 
     // A MODIFIER POUR VOTRE BD
     public connectionConfig: pg.ConnectionConfig = {
-        user: "postgres",
-        database: "postgres",
-        password: "771077",
-        port: 5432,
-        host: "127.0.0.1",
-        keepAlive : true
+        user: dataBaseConnection.user,
+        database: dataBaseConnection.database,
+        password: dataBaseConnection.password,
+        port: dataBaseConnection.port,
+        host: dataBaseConnection.host,
+        keepAlive : dataBaseConnection.keepAlive
     };
 
     private pool: pg.Pool = new pg.Pool(this.connectionConfig);

@@ -32,5 +32,11 @@ export class FilmDetailComponent implements OnInit {
       console.log("got film with id:", this.film.numero);
     });
   }
+  public getAnnee(film: Film): string {
+    let annee: string = "";
+    annee += film.dateProduction;
+
+    return annee;
+  }
 
 }

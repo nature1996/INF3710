@@ -9,12 +9,14 @@ import { AppComponent } from "./app.component";
 import { CommunicationService } from "./communication.service";
 import { FilmDetailComponent } from "./film-detail/film-detail.component";
 import { FilmListComponent } from "./film-list/film-list.component";
+import { LoginComponent } from "./login/login.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     FilmListComponent,
-    FilmDetailComponent
+    FilmDetailComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

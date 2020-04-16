@@ -1,1 +1,32 @@
-<p>film-detail works!</p>
+<div>
+    <div class="FilmTitle">
+        <a>
+            {{film.titre}}
+        </a>
+    </div>
+    <div class = "FilmDetail">
+        <p>
+            année: {{getAnnee(film)}}    durée: {{film.duree}}
+            <br/>
+            genre: {{film.genre}}
+        </p>
+    </div>
+    <div>
+        <p>Distribution</p>
+    </div>
+    <div>
+        <p>Prix</p>
+        <table id ="ht" align="center" border="1" width="350">
+            <thead>
+              <th> Categorie</th>
+              <th> Résultat</th>
+            </thead>
+           <!--  <tbody>
+              <tr *ngFor="let hotel of hotels">
+                <td> {{hotel.hotelname}}</td>
+                <td> {{hotel.city}} </td>
+              </tr>
+            </tbody> -->
+          </table>
+    </div>
+</div>

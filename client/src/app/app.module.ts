@@ -7,12 +7,14 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing/app-routing.module";
 import { AppComponent } from "./app.component";
 import { CommunicationService } from "./communication.service";
+import { FilmDetailComponent } from "./film-detail/film-detail.component";
 import { FilmListComponent } from "./film-list/film-list.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    FilmListComponent
+    FilmListComponent,
+    FilmDetailComponent
   ],
   imports: [
     CommonModule,

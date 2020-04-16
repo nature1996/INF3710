@@ -1,13 +1,22 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 // tslint:disable-next-line:ordered-imports
-import { of, Observable, concat, Subject } from "rxjs";
+import { concat, of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { Film } from "../../../common/tables/Film";
+
+import {films} from "./temp-const";
 
 // tslint:disable: no-any
 
 @Injectable()
 export class CommunicationService {
+
+    // TODO: remove when linked
+    private _films: Observable<Film[]> = new Observable( (observer) => {
+        observer.next(films);
+    });
+    // end
 
     private readonly BASE_URL: string = "http://localhost:3000/database";
     public constructor(private http: HttpClient) { }
@@ -20,6 +29,16 @@ export class CommunicationService {
 
     public filter(filterBy: string): void {
        this._listners.next(filterBy);
+    }
+
+    public getFilms(): Observable<any[]> {
+        return this._films;
+    }
+
+    public getFilmDetail(id: number): Observable<any> {
+        return new Observable<Film>((observer) => {
+            observer.next(films[id]);
+        });
     }
 
     /* public getHotels(): Observable<any[]> {

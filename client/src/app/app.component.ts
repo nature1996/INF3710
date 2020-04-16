@@ -14,11 +14,7 @@ export class AppComponent {
 
   public constructor(private communicationService: CommunicationService, location: Location, router: Router) {
       router.events.subscribe((val) => {
-          if (location.path() !== "") {
-            this.route = location.path();
-          } else {
-            this.route = "";
-          }
+          (location.path() !== "") ? this.route = location.path() : this.route = "";
         });
   }
 }

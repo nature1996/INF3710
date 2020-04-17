@@ -1,18 +1,18 @@
-<table id ="ht" align="center" border="1" width="350">
-    <thead>
-      <th> Titre </th>
-      <th> Genre </th>
-      <th> Durée </th>
-      <th> Année </th>
-      <th> Prix </th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let film of films"  [routerLink]="['/film_detail', film.numero]">
-        <td>{{film.titre}}</td>
-        <td>{{film.genre}}</td>
-        <td>{{film.duree}}</td>
-        <td>{{getAnnee(film)}}</td>
-        <td>{{getPrix(film)}}</td>
-      </tr>
-    </tbody>
-  </table>
+<table id="ht" class="listeFilm" align="center" border="1">
+  <thead>
+    <th>Titre</th>
+    <th>Genre</th>
+    <th>Durée</th>
+    <th>Année</th>
+    <th>Prix</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let film of films" [routerLink]="['/film_detail', film.numero]">
+      <td>{{ film.titre }}</td>
+      <td>{{ film.genre }}</td>
+      <td>{{ film.duree }}</td>
+      <td>{{ getAnnee(film) }}</td>
+      <td>{{ getPrix(film) }}</td>
+    </tr>
+  </tbody>
+</table>

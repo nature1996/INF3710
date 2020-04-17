@@ -1,0 +1,119 @@
+<div>
+  <div *ngIf="!montrerAjout">
+    <button (click)="afficherAjouter()">Ajouter/modifier</button>
+  </div>
+  <div *ngIf="montrerAjout">
+    <button (click)="afficherAjouter()">Masquer</button>
+    <ul style="list-style: none;">
+      ID (vide si nouveaux) :
+      <li>
+        <input
+          type="number"
+          [(ngModel)]="formulaire.numero"
+          class="form-control col-md-4"
+          min="0"
+          #ID
+        />
+      </li>
+      Titre :
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire.titre"
+          class="form-control col-md-4"
+          #titre
+        />
+      </li>
+      Genre :
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire.genre"
+          class="form-control col-md-4"
+          #genre
+        />
+      </li>
+      Date de production :
+      <li>
+        <input
+          type="date"
+          [(ngModel)]="formulaire.dateProduction"
+          class="form-control col-md-4"
+          #date
+        />
+      </li>
+      Durée (en minute):
+      <li>
+        <input
+          type="number"
+          [(ngModel)]="formulaire.duree"
+          class="form-control col-md-4"
+          min="0"
+          #duree
+        />
+      </li>
+      Prix :
+      <li>
+        <input
+          type="number"
+          [(ngModel)]="formulaire.prix"
+          class="form-control col-md-4"
+          min="0"
+          step=".01"
+          #prix
+        />
+      </li>
+      <div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="confirmFilm()"
+          [disabled]="false"
+        >
+          Confirmer
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="resetForm()"
+          [disabled]="false"
+        >
+          Reset
+        </button>
+      </div>
+    </ul>
+  </div>
+  <p></p>
+  <div>
+    <table id="ht" class="listeFilm" align="center" border="1">
+      <thead>
+        <th>Titre</th>
+        <th>Genre</th>
+        <th>Durée</th>
+        <th>Année</th>
+        <th>Prix</th>
+        <th>Modifier</th>
+        <th>Suprimer</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let film of films">
+          <td>{{ film.titre }}</td>
+          <td>{{ film.genre }}</td>
+          <td>{{ film.duree }}</td>
+          <td>{{ getAnnee(film) }}</td>
+          <td>{{ getPrix(film) }}</td>
+          <td>
+            <button (click)="modifierFilm(film)" style="color: green;">
+              M
+            </button>
+          </td>
+          <td>
+            <button (click)="suprimerFilm(film)" style="color: red;">
+              X
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

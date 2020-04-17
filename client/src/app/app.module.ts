@@ -11,6 +11,7 @@ import { FilmDetailComponent } from "./film-detail/film-detail.component";
 import { FilmListComponent } from "./film-list/film-list.component";
 import { LoginComponent } from "./login/login.component";
 import { EcouterVideoComponent } from './ecouter-video/ecouter-video.component';
+import { AddFilmComponent } from './add-film/add-film.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EcouterVideoComponent } from './ecouter-video/ecouter-video.component';
     FilmListComponent,
     FilmDetailComponent,
     LoginComponent,
-    EcouterVideoComponent
+    EcouterVideoComponent,
+    AddFilmComponent
   ],
   imports: [
     CommonModule,

@@ -1,51 +1,56 @@
 <div>
-    <div class="FilmTitle">
-        <a>
-            {{film.titre}}
-        </a>
-    </div>
-    <div class = "FilmDetail">
-        <p>
-            année: {{getAnnee(film)}}    durée: {{film.duree}}
-            <br/>
-            genre: {{film.genre}}
-        </p>
-    </div>
-    <div>
-      <button *ngIf="activeUser != null && activeUser.membre" [routerLink]="['/ecouter', film.numero]">écouter film</button>
-    </div>
-    <div>
-        <p>Distribution</p>
-        <table id ="ht" align="center" border="1" width="350">
-            <thead>
-              <th> Role</th>
-              <th> Nom</th>
-              <th> Salaire</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let role of roles">
-                <td> {{role.role}}</td>
-                <td> {{role.nom}} </td>
-                <td> {{role.salaire}} $ </td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
-    <div>
-        <p>Oscars</p>
-        <table id ="ht" align="center" border="1" width="350">
-            <thead>
-              <th> Année</th>
-              <th> Categorie</th>
-              <th> Résultat</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let oscar of oscars">
-                <td> {{oscar.dateOscar}}</td>
-                <td> {{oscar.categorie}} </td>
-                <td> {{oscar.issue}} </td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
+  <div class="FilmTitle">
+    <a>
+      {{ film.titre }}
+    </a>
+  </div>
+  <div class="FilmDetail">
+    <p>
+      année: {{ getAnnee(film) }} durée: {{ film.duree }}
+      <br />
+      genre: {{ film.genre }}
+    </p>
+  </div>
+  <div>
+    <button
+      *ngIf="activeUser != null && activeUser.membre"
+      [routerLink]="['/ecouter', film.numero]"
+    >
+      écouter film
+    </button>
+  </div>
+  <div>
+    <p>Distribution</p>
+    <table id="ht" align="center" border="1" width="350">
+      <thead>
+        <th>Role</th>
+        <th>Nom</th>
+        <th>Salaire</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of roles">
+          <td>{{ role.role }}</td>
+          <td>{{ role.nom }}</td>
+          <td>{{ role.salaire }} $</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <p>Oscars</p>
+    <table id="ht" align="center" border="1" width="350">
+      <thead>
+        <th>Année</th>
+        <th>Categorie</th>
+        <th>Résultat</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let oscar of oscars">
+          <td>{{ oscar.dateOscar }}</td>
+          <td>{{ oscar.categorie }}</td>
+          <td>{{ oscar.issue }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -22,4 +22,8 @@ export class AppComponent {
         this.activeUser = observer;
       });
   }
+
+  public logOut(): void {
+    this.communicationService.logOut();
+  }
 }

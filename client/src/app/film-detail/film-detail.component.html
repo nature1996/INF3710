@@ -12,6 +12,9 @@
         </p>
     </div>
     <div>
+      <button *ngIf="activeUser != null && activeUser.membre" [routerLink]="['/ecouter', film.numero]">écouter film</button>
+    </div>
+    <div>
         <p>Distribution</p>
         <table id ="ht" align="center" border="1" width="350">
             <thead>

@@ -58,6 +58,10 @@ export class CommunicationService {
         );
     }
 
+    public logOut(): void {
+        this._activeUser.next(null);
+    }
+
     public getFilms(): Observable<any[]> {
         return this._films;
     }

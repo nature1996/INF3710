@@ -7,20 +7,26 @@ import { CommunicationService } from "./communication.service";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
   public title = "Netflix_poly";
   public route: string;
   public activeUser: Utilisateur;
 
-  public constructor(private communicationService: CommunicationService, location: Location, router: Router) {
-      router.events.subscribe((val) => {
-          (location.path() !== "") ? this.route = location.path() : this.route = "";
-        });
-      this.communicationService.activeUser.subscribe((observer) => {
-        this.activeUser = observer;
-      });
+  public constructor(
+    private communicationService: CommunicationService,
+    location: Location,
+    router: Router
+  ) {
+    router.events.subscribe((val) => {
+      location.path() !== ""
+        ? (this.route = location.path())
+        : (this.route = "");
+    });
+    this.communicationService.activeUser.subscribe((observer) => {
+      this.activeUser = observer;
+    });
   }
 
   public logOut(): void {

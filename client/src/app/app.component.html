@@ -1,25 +1,25 @@
-
 <nav class="navbar navbar-dark bg-dark mb-5">
-  <a class="navbar-brand title" href="/">INF3710-TP5    </a>
-  <a *ngIf="activeUser != null">{{activeUser.nom}}</a>
-  <a *ngIf="activeUser != null" (click)="logOut()">          log out</a>
+  <a class="navbar-brand title" href="/">INF3710-TP5 </a>
+  <a *ngIf="activeUser != null">{{ activeUser.nom }}</a>
+  <a *ngIf="activeUser != null" (click)="logOut()"> log out</a>
   <div class="navbar-expand mr-auto">
     <div class="navbar-nav">
       <a class="nav-item nav-link active" routerLink="/films_list">film list</a>
-      <a class="nav-item nav-link active" routerLink="/film_detail">detail_test</a>
+      <a class="nav-item nav-link active" routerLink="/film_detail"
+        >detail_test</a
+      >
     </div>
   </div>
 </nav>
 
-<div style="text-align:center">
-<div *ngIf="route == ''">
-<!-- <button type="button" class="btn btn-danger" (click) ="createDB()">Create Database</button> -->
-</div>
+<div style="text-align: center;">
+  <div *ngIf="route == ''">
+    <!-- <button type="button" class="btn btn-danger" (click) ="createDB()">Create Database</button> -->
+  </div>
 
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 
-
-<!-- <div id="ht" style="text-align:center" *ngIf="route != '/room'">
+  <!-- <div id="ht" style="text-align:center" *ngIf="route != '/room'">
 <button type="button" class="btn btn-primary" (click)="getHotels()">Get Hotels</button>
 <table id ="ht" align="center" border="1" width="350">
   <thead>
@@ -36,3 +36,4 @@
   </tbody>
 </table>
 </div> -->
+</div>

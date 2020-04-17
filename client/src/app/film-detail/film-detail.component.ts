@@ -10,15 +10,14 @@ import { CommunicationService } from "../communication.service";
 @Component({
   selector: "app-film-detail",
   templateUrl: "./film-detail.component.html",
-  styleUrls: ["./film-detail.component.css"]
+  styleUrls: ["./film-detail.component.css"],
 })
 export class FilmDetailComponent implements OnInit {
-
   public constructor(
     private route: ActivatedRoute,
     private router: Router,
     private communicationService: CommunicationService
-    ) {
+  ) {
     // void
   }
   public film: Film;
@@ -27,16 +26,18 @@ export class FilmDetailComponent implements OnInit {
   public activeUser: Utilisateur;
 
   public ngOnInit(): void {
-    this.route.paramMap.pipe(
-      switchMap((params: ParamMap) =>
-        this.communicationService.getFilmDetail(
-          parseInt(params.get("filmID"), 10)
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) =>
+          this.communicationService.getFilmDetail(
+            parseInt(params.get("filmID"), 10)
+          )
         )
       )
-    ).subscribe((film: Film) => {
-      this.film = film;
-      console.log("got film with id:", this.film.numero);
-    });
+      .subscribe((film: Film) => {
+        this.film = film;
+        console.log("got film with id:", this.film.numero);
+      });
     this.communicationService.activeUser.subscribe((activeUser) => {
       this.activeUser = activeUser;
     });
@@ -45,15 +46,19 @@ export class FilmDetailComponent implements OnInit {
   }
 
   public getActor(): void {
-    this.communicationService.getRoleFilm(this.film.numero).subscribe((roles: RoleActeur[]) => {
-      this.roles = roles;
-  });
+    this.communicationService
+      .getRoleFilm(this.film.numero)
+      .subscribe((roles: RoleActeur[]) => {
+        this.roles = roles;
+      });
   }
 
   public getOscar(): void {
-    this.communicationService.getOscarFilm(this.film.numero).subscribe((oscars: Oscar[]) => {
-      this.oscars = oscars;
-  });
+    this.communicationService
+      .getOscarFilm(this.film.numero)
+      .subscribe((oscars: Oscar[]) => {
+        this.oscars = oscars;
+      });
   }
 
   public getAnnee(film: Film): string {
@@ -62,5 +67,4 @@ export class FilmDetailComponent implements OnInit {
 
     return annee;
   }
-
 }

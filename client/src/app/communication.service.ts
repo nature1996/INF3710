@@ -91,6 +91,18 @@ export class CommunicationService {
     });
   }
 
+  public insertFilm(film: Film): Observable<number> {
+    return new Observable<number>((observer) => {
+      observer.next(1);
+    });
+  }
+
+  public modifierFilm(film: Film): Observable<number> {
+    return new Observable<number>((observer) => {
+      observer.next(1);
+    });
+  }
+
   /* public getHotels(): Observable<any[]> {
 
         return this.http.get<Hotel[]>(this.BASE_URL + "/hotel").pipe(

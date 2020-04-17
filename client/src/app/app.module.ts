@@ -4,15 +4,15 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 
+import { AddFilmComponent } from "./add-film/add-film.component";
+import { AdminPageComponent } from "./admin-page/admin-page.component";
 import { AppRoutingModule } from "./app-routing/app-routing.module";
 import { AppComponent } from "./app.component";
 import { CommunicationService } from "./communication.service";
+import { EcouterVideoComponent } from "./ecouter-video/ecouter-video.component";
 import { FilmDetailComponent } from "./film-detail/film-detail.component";
 import { FilmListComponent } from "./film-list/film-list.component";
 import { LoginComponent } from "./login/login.component";
-import { EcouterVideoComponent } from './ecouter-video/ecouter-video.component';
-import { AddFilmComponent } from './add-film/add-film.component';
-import { AdminPageComponent } from './admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
@@ -22,16 +22,16 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
     LoginComponent,
     EcouterVideoComponent,
     AddFilmComponent,
-    AdminPageComponent
+    AdminPageComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [CommunicationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

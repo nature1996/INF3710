@@ -8,9 +8,8 @@ describe("AddFilmComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddFilmComponent ]
-    })
-    .compileComponents();
+      declarations: [AddFilmComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

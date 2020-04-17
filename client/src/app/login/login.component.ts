@@ -4,11 +4,10 @@ import { CommunicationService } from "../communication.service";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
-
-  public constructor(private communicationService: CommunicationService) { }
+  public constructor(private communicationService: CommunicationService) {}
 
   public loginError: boolean;
 
@@ -23,5 +22,4 @@ export class LoginComponent implements OnInit {
   public logIn(couriel: string, motDePasse: string): void {
     this.communicationService.logIn(couriel, motDePasse);
   }
-
 }

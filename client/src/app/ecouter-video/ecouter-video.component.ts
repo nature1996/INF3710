@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-ecouter-video',
-  templateUrl: './ecouter-video.component.html',
-  styleUrls: ['./ecouter-video.component.css']
+  selector: "app-ecouter-video",
+  templateUrl: "./ecouter-video.component.html",
+  styleUrls: ["./ecouter-video.component.css"],
 })
 export class EcouterVideoComponent implements OnInit {
+  public constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  public ngOnInit(): void {}
 }

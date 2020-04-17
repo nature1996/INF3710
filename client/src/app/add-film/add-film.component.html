@@ -15,8 +15,10 @@
           [(ngModel)]="formulaire.numero"
           class="form-control col-md-4"
           min="0"
+          (input)="verifierID()"
           #ID
         />
+        <p *ngIf="!isValidID" style="color: red;">Invalid ID</p>
       </li>
       Titre :
       <li>
@@ -71,16 +73,11 @@
           type="button"
           class="btn btn-primary"
           (click)="confirmFilm()"
-          [disabled]="false"
+          [disabled]="!isValidID"
         >
           Confirmer
         </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="resetForm()"
-          [disabled]="false"
-        >
+        <button type="button" class="btn btn-primary" (click)="resetForm()">
           Reset
         </button>
       </div>

@@ -20,8 +20,11 @@ export class AddFilmComponent implements OnInit {
   public constructor(private communicationService: CommunicationService) {}
 
   public films: Film[] = [];
-  public montrerAjout: boolean;
   public formulaire: Film;
+
+  public montrerAjout: boolean;
+  public isValidID: boolean = true;
+  public invalidFilm: boolean = false;
 
   public ngOnInit(): void {
     this.resetForm();
@@ -61,7 +64,15 @@ export class AddFilmComponent implements OnInit {
   }
 
   public confirmFilm(): void {
-    console.log(this.formulaire);
+    if (this.formulaire.numero == null) {
+      this.communicationService.insertFilm(this.formulaire).subscribe(() => {
+        this.getFilms();
+      });
+    } else {
+      this.communicationService.modifierFilm(this.formulaire).subscribe(() => {
+        this.getFilms();
+      });
+    }
   }
 
   public modifierFilm(film: Film): void {
@@ -71,5 +82,13 @@ export class AddFilmComponent implements OnInit {
 
   public suprimerFilm(film: Film): void {
     console.log("supression du film:", film);
+  }
+
+  public verifierID(): void {
+    this.isValidID =
+      this.formulaire.numero == null ||
+      this.films.findIndex((value: Film) => {
+        return value.numero === this.formulaire.numero;
+      }) !== -1;
   }
 }

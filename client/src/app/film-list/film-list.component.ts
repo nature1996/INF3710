@@ -5,13 +5,12 @@ import { CommunicationService } from "../communication.service";
 @Component({
   selector: "app-film-list",
   templateUrl: "./film-list.component.html",
-  styleUrls: ["./film-list.component.css"]
+  styleUrls: ["./film-list.component.css"],
 })
 export class FilmListComponent implements OnInit {
-
   public constructor(private communicationService: CommunicationService) {
     // void
-   }
+  }
 
   public films: Film[] = [];
 
@@ -21,8 +20,8 @@ export class FilmListComponent implements OnInit {
 
   public getFilms(): void {
     this.communicationService.getFilms().subscribe((films: Film[]) => {
-        this.films = films;
-        console.log("Film loaded");
+      this.films = films;
+      console.log("Film loaded");
     });
   }
 
@@ -41,5 +40,4 @@ export class FilmListComponent implements OnInit {
 
     return prix;
   }
-
 }

@@ -13,20 +13,36 @@
     </div>
     <div>
         <p>Distribution</p>
-    </div>
-    <div>
-        <p>Prix</p>
         <table id ="ht" align="center" border="1" width="350">
             <thead>
+              <th> Role</th>
+              <th> Nom</th>
+              <th> Salaire</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let role of roles">
+                <td> {{role.role}}</td>
+                <td> {{role.nom}} </td>
+                <td> {{role.salaire}} $ </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div>
+        <p>Oscars</p>
+        <table id ="ht" align="center" border="1" width="350">
+            <thead>
+              <th> Année</th>
               <th> Categorie</th>
               <th> Résultat</th>
             </thead>
-           <!--  <tbody>
-              <tr *ngFor="let hotel of hotels">
-                <td> {{hotel.hotelname}}</td>
-                <td> {{hotel.city}} </td>
+            <tbody>
+              <tr *ngFor="let oscar of oscars">
+                <td> {{oscar.dateOscar}}</td>
+                <td> {{oscar.categorie}} </td>
+                <td> {{oscar.issue}} </td>
               </tr>
-            </tbody> -->
+            </tbody>
           </table>
     </div>
 </div>

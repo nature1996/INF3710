@@ -3,9 +3,12 @@ import { Injectable } from "@angular/core";
 // tslint:disable-next-line:ordered-imports
 import { concat, of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { Film } from "../../../common/tables/Film";
 
-import {films} from "./temp-const";
+import { RoleActeur } from "../../../common/request/RoleActeur";
+import { Film } from "../../../common/tables/Film";
+import { Oscar } from "../../../common/tables/Oscar";
+
+import {films, oscarsFilm, rolesFilm} from "./temp-const";
 
 // tslint:disable: no-any
 
@@ -31,6 +34,11 @@ export class CommunicationService {
        this._listners.next(filterBy);
     }
 
+    public encript(motDePasse: string): string {
+        // TODO: add encription
+        return motDePasse;
+    }
+
     public getFilms(): Observable<any[]> {
         return this._films;
     }
@@ -38,6 +46,18 @@ export class CommunicationService {
     public getFilmDetail(id: number): Observable<any> {
         return new Observable<Film>((observer) => {
             observer.next(films[id]);
+        });
+    }
+
+    public getRoleFilm(filmID: number): Observable<any> {
+        return new Observable<RoleActeur[]>((observer) => {
+            observer.next(rolesFilm);
+        });
+    }
+
+    public getOscarFilm(filmID: number): Observable<any> {
+        return new Observable<Oscar[]>((observer) => {
+            observer.next(oscarsFilm);
         });
     }
 

@@ -1,10 +1,13 @@
+<div style="text-align: left;">
+  <a routerLink="/admin">Retour a l'acceuil administrateur </a>
+</div>
 <div>
   <div *ngIf="!montrerAjout">
     <button (click)="afficherAjouter()">Ajouter/modifier</button>
   </div>
   <div *ngIf="montrerAjout">
     <button (click)="afficherAjouter()">Masquer</button>
-    <ul style="list-style: none;">
+    <ul>
       ID (vide si nouveaux) :
       <li>
         <input
@@ -85,8 +88,9 @@
   </div>
   <p></p>
   <div>
-    <table id="ht" class="listeFilm" align="center" border="1">
+    <table id="ht" align="center" border="1">
       <thead>
+        <th>ID</th>
         <th>Titre</th>
         <th>Genre</th>
         <th>Durée</th>
@@ -97,6 +101,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let film of films">
+          <td>{{ film.numero }}</td>
           <td>{{ film.titre }}</td>
           <td>{{ film.genre }}</td>
           <td>{{ film.duree }}</td>

@@ -12,6 +12,7 @@ import { FilmListComponent } from "./film-list/film-list.component";
 import { LoginComponent } from "./login/login.component";
 import { EcouterVideoComponent } from './ecouter-video/ecouter-video.component';
 import { AddFilmComponent } from './add-film/add-film.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AddFilmComponent } from './add-film/add-film.component';
     FilmDetailComponent,
     LoginComponent,
     EcouterVideoComponent,
-    AddFilmComponent
+    AddFilmComponent,
+    AdminPageComponent
   ],
   imports: [
     CommonModule,

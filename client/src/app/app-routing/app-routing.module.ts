@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
 import { AddFilmComponent } from "../add-film/add-film.component";
+import { AdminPageComponent } from "../admin-page/admin-page.component";
 import { AppComponent } from "../app.component";
 import { EcouterVideoComponent } from "../ecouter-video/ecouter-video.component";
 import { FilmDetailComponent } from "../film-detail/film-detail.component";
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "ecouter/:filmID", component: EcouterVideoComponent },
   { path: "admin/ajouterfilm", component: AddFilmComponent },
+  { path: "admin", component: AdminPageComponent },
 ];
 
 @NgModule({

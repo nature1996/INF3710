@@ -4,6 +4,7 @@ import { switchMap } from "rxjs/operators";
 import { RoleActeur } from "../../../../common/request/RoleActeur";
 import { Film } from "../../../../common/tables/Film";
 import { Oscar } from "../../../../common/tables/Oscar";
+import { Utilisateur } from "../../../../common/tables/Utilisateur";
 import { CommunicationService } from "../communication.service";
 
 @Component({
@@ -23,6 +24,7 @@ export class FilmDetailComponent implements OnInit {
   public film: Film;
   public roles: RoleActeur[];
   public oscars: Oscar[];
+  public activeUser: Utilisateur;
 
   public ngOnInit(): void {
     this.route.paramMap.pipe(
@@ -34,6 +36,9 @@ export class FilmDetailComponent implements OnInit {
     ).subscribe((film: Film) => {
       this.film = film;
       console.log("got film with id:", this.film.numero);
+    });
+    this.communicationService.activeUser.subscribe((activeUser) => {
+      this.activeUser = activeUser;
     });
     this.getActor();
     this.getOscar();

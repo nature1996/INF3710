@@ -10,8 +10,18 @@ export class LoginComponent implements OnInit {
 
   public constructor(private communicationService: CommunicationService) { }
 
+  public loginError: boolean;
+
   public ngOnInit(): void {
-    // Todo
+    this.communicationService.activeUser.subscribe((observer) => {
+      this.loginError = observer == null;
+      console.log(observer);
+    });
+    this.loginError = false;
+  }
+
+  public logIn(couriel: string, motDePasse: string): void {
+    this.communicationService.logIn(couriel, motDePasse);
   }
 
 }

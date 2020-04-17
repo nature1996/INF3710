@@ -1,6 +1,7 @@
 import { RoleActeur } from "../../../common/request/RoleActeur";
 import {Film} from "../../../common/tables/Film";
 import { Oscar } from "../../../common/tables/Oscar";
+import { Utilisateur } from "../../../common/tables/Utilisateur";
 
 export const films: Film[] = [
     {
@@ -41,3 +42,12 @@ export const oscarsFilm: Oscar[] = [
         "issue" : "victoire",
     }
 ];
+
+export const tempUser: Utilisateur = {
+    "UID" : 0,
+    "courrier" : "nature1996@polymtl.ca",
+    "motDePasse" : "123456",
+    "nom" : "Nt6 19",
+    "membre" : true,
+    "idAdresse" : 0,
+};

@@ -1,14 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 // tslint:disable-next-line:ordered-imports
-import { concat, of, Observable, Subject } from "rxjs";
+import { concat, of, Observable, Subject, observable, BehaviorSubject } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 import { RoleActeur } from "../../../common/request/RoleActeur";
 import { Film } from "../../../common/tables/Film";
 import { Oscar } from "../../../common/tables/Oscar";
+import { Utilisateur } from "../../../common/tables/Utilisateur";
 
-import {films, oscarsFilm, rolesFilm} from "./temp-const";
+import {films, oscarsFilm, rolesFilm, tempUser} from "./temp-const";
 
 // tslint:disable: no-any
 
@@ -26,17 +27,35 @@ export class CommunicationService {
 
     private _listners: any = new Subject<any>();
 
+    private _activeUser: any = new BehaviorSubject<Utilisateur>(null);
+
     public listen(): Observable<any> {
        return this._listners.asObservable();
+    }
+
+    public get activeUser(): Observable<any> {
+        return this._activeUser.asObservable();
     }
 
     public filter(filterBy: string): void {
        this._listners.next(filterBy);
     }
 
-    public encript(motDePasse: string): string {
+    private encript(motDePasse: string): string {
         // TODO: add encription
         return motDePasse;
+    }
+
+    public logIn(couriel: string, motDePasse: string): void {
+        new Observable<Utilisateur>((observer) => {
+            observer.next(
+                couriel === "nature1996@polymtl.ca" && this.encript(motDePasse) === "123456" ? tempUser : null
+                );
+        }).subscribe((observer) => {
+            this._activeUser.next(observer);
+        }
+
+        );
     }
 
     public getFilms(): Observable<any[]> {

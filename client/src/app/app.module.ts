@@ -10,13 +10,15 @@ import { CommunicationService } from "./communication.service";
 import { FilmDetailComponent } from "./film-detail/film-detail.component";
 import { FilmListComponent } from "./film-list/film-list.component";
 import { LoginComponent } from "./login/login.component";
+import { EcouterVideoComponent } from './ecouter-video/ecouter-video.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FilmListComponent,
     FilmDetailComponent,
-    LoginComponent
+    LoginComponent,
+    EcouterVideoComponent
   ],
   imports: [
     CommonModule,

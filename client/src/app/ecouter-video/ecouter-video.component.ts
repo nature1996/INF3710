@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { Utilisateur } from "../../../../common/tables/Utilisateur";
+import { CommunicationService } from "../communication.service";
 
 @Component({
   selector: "app-ecouter-video",
@@ -6,7 +8,13 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./ecouter-video.component.css"],
 })
 export class EcouterVideoComponent implements OnInit {
-  public constructor() {}
+  public constructor(private communicationService: CommunicationService) {}
 
-  public ngOnInit(): void {}
+  public activeUser: Utilisateur;
+
+  public ngOnInit(): void {
+    this.communicationService.activeUser.subscribe((activeUser) => {
+      this.activeUser = activeUser;
+    });
+  }
 }

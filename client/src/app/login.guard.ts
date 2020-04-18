@@ -1,27 +1,28 @@
-import { Injectable, OnInit } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
   RouterStateSnapshot,
 } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { Utilisateur } from "../../../common/tables/Utilisateur";
 import { CommunicationService } from "./communication.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class LoginGuard implements CanActivate {
+export class LoginGuard implements CanActivate, OnDestroy {
   public constructor(
     private communicationService: CommunicationService,
     private router: Router
   ) {
-    this.communicationService.activeUser.subscribe((value) => {
+    this.sub = this.communicationService.activeUser.subscribe((value) => {
       this.activeUser = value;
     });
   }
   private activeUser: Utilisateur;
+  private sub: Subscription;
 
   public canActivate(
     next: ActivatedRouteSnapshot,
@@ -34,5 +35,9 @@ export class LoginGuard implements CanActivate {
     }
 
     return true;
+  }
+
+  public ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }

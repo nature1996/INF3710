@@ -1,32 +1,39 @@
 import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { Utilisateur } from "../../../common/tables/Utilisateur";
 import { CommunicationService } from "./communication.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   public title = "Netflix_poly";
   public route: string;
   public activeUser: Utilisateur;
+
+  private subs: Subscription[];
 
   public constructor(
     private communicationService: CommunicationService,
     location: Location,
     router: Router
   ) {
-    router.events.subscribe((val) => {
-      location.path() !== ""
-        ? (this.route = location.path())
-        : (this.route = "");
-    });
-    this.communicationService.activeUser.subscribe((observer) => {
-      this.activeUser = observer;
-    });
+    this.subs.push(
+      router.events.subscribe((val) => {
+        location.path() !== ""
+          ? (this.route = location.path())
+          : (this.route = "");
+      })
+    );
+    this.subs.push(
+      this.communicationService.activeUser.subscribe((observer) => {
+        this.activeUser = observer;
+      })
+    );
   }
 
   public ngOnInit(): void {
@@ -35,5 +42,11 @@ export class AppComponent implements OnInit {
 
   public logOut(): void {
     this.communicationService.logOut();
+  }
+
+  public ngOnDestroy(): void {
+    for (let sub of this.subs) {
+      sub.unsubscribe();
+    }
   }
 }

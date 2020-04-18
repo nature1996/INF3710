@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
 import * as pg from "pg";
 import "reflect-metadata";
-/* import { Room } from "../../../common/tables/Room"; */
 import { schema } from "../createSchema";
 import { data } from "../populateDB";
 
@@ -9,9 +8,9 @@ import { data } from "../populateDB";
 export class DatabaseService {
   // A MODIFIER POUR VOTRE BD
   public connectionConfig: pg.ConnectionConfig = {
-    user: "test2",
-    database: "pg_exemple",
-    password: "1234",
+    user: "postgres",
+    database: "postgres",
+    password: "123456",
     port: 5432,
     host: "127.0.0.1",
     keepAlive: true,
@@ -106,18 +105,6 @@ export class DatabaseService {
 
     return this.pool.query(query);
   }
-
-  /*  public createRoom(room: Room): Promise<pg.QueryResult> {
-    const values: string[] = [
-      room.roomno,
-      room.hotelno,
-      room.typeroom,
-      room.price.toString(),
-    ];
-    const queryText: string = `INSERT INTO HOTELDB.ROOM VALUES($1,$2,$3,$4);`;
-
-    return this.pool.query(queryText, values);
-  } */
 
   // GUEST
   public createGuest(

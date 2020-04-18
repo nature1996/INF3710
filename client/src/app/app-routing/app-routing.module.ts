@@ -10,19 +10,34 @@ import { CanDeactivateGuard } from "../can-deactivate.guard";
 import { EcouterVideoComponent } from "../ecouter-video/ecouter-video.component";
 import { FilmDetailComponent } from "../film-detail/film-detail.component";
 import { FilmListComponent } from "../film-list/film-list.component";
+import { LoginGuard } from "../login.guard";
 import { LoginComponent } from "../login/login.component";
 
 const routes: Routes = [
   { path: "app", component: AppComponent },
-  { path: "films_list", component: FilmListComponent },
-  { path: "film_detail/:filmID", component: FilmDetailComponent },
+  { path: "", redirectTo: "/films_list", pathMatch: "full" },
+  {
+    path: "films_list",
+    component: FilmListComponent,
+    canActivate: [LoginGuard],
+  },
+  {
+    path: "film_detail/:filmID",
+    component: FilmDetailComponent,
+    canActivate: [LoginGuard],
+  },
   { path: "login", component: LoginComponent },
   {
     path: "ecouter/:filmID",
     component: EcouterVideoComponent,
     canDeactivate: [CanDeactivateGuard],
+    canActivate: [LoginGuard],
   },
-  { path: "acheter/:filmID", component: AcheterFilmComponent },
+  {
+    path: "acheter/:filmID",
+    component: AcheterFilmComponent,
+    canActivate: [LoginGuard],
+  },
   { path: "admin/ajouterfilm", component: AddFilmComponent },
   { path: "admin/ajouterutilisateur", component: AddUserComponent },
   { path: "admin", component: AdminPageComponent },

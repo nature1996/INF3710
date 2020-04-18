@@ -12,4 +12,16 @@
 }
 .title {
   color: red;
+  width: fit-content;
+  margin-left: 10pt;
+}
+.logout {
+  float: right;
+  padding-right: 10pt;
+}
+.username {
+  float: left;
+  padding-left: 10pt;
+}
+.uinfo {
 }

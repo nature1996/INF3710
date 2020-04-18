@@ -3,7 +3,9 @@
     Couriel :
     <li><input type="email" class="form-control col-md-4" #couriel /></li>
     Mot de passe :
-    <li><input type="password" class="form-control col-md-4" #motDePasse /></li>
+    <li>
+      <input type="password" class="form-control col-md-4" #motDePasse />
+    </li>
     <div style="color: red;" *ngIf="loginError">
       Couriel ou mot de passe invalide
     </div>

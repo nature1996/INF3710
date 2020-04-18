@@ -18,6 +18,7 @@ import { LoginComponent } from "./login/login.component";
 import { MatVideoModule } from "mat-video";
 import { AcheterFilmComponent } from "./acheter-film/acheter-film.component";
 import { AddUserComponent } from "./add-user/add-user.component";
+import { LoginGuard } from "./login.guard";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { AddUserComponent } from "./add-user/add-user.component";
     BrowserAnimationsModule,
     MatVideoModule,
   ],
-  providers: [CommunicationService],
+  providers: [CommunicationService, LoginGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

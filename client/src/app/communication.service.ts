@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 // tslint:disable-next-line:ordered-imports
 import {
   concat,
@@ -37,7 +38,7 @@ export class CommunicationService {
   // end
 
   private readonly BASE_URL: string = "http://localhost:3000/database";
-  public constructor(private http: HttpClient) {}
+  public constructor(private http: HttpClient, private router: Router) {}
 
   private _listners: any = new Subject<any>();
 
@@ -47,7 +48,7 @@ export class CommunicationService {
     return this._listners.asObservable();
   }
 
-  public get activeUser(): Observable<any> {
+  public get activeUser(): Observable<Utilisateur> {
     return this._activeUser.asObservable();
   }
 
@@ -75,6 +76,7 @@ export class CommunicationService {
 
   public logOut(): void {
     this._activeUser.next(null);
+    this.router.navigate(["login/"]);
   }
 
   public getFilms(): Observable<any[]> {

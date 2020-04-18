@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    console.log("hello");
+    // void
   }
 
   public logOut(): void {

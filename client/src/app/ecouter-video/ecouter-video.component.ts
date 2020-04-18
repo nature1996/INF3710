@@ -33,8 +33,23 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
   public activeUser: Utilisateur;
   public visionement: Visionement;
 
+  public vid: string;
+
   public ngOnInit(): void {}
   public ngAfterViewInit(): void {
+    this.communicationService.activeUser.subscribe((activeUser) => {
+      this.activeUser = activeUser;
+    });
+
+    this.vid = "http://static.videogular.com/assets/videos/videogular.mp4";
+    this.matVideo
+      .getVideoTag()
+      .setAttribute(
+        "src",
+        "http://static.videogular.com/assets/videos/videogular.mp4"
+      );
+  }
+  /* public ngAfterViewInit(): void {
     this.communicationService.activeUser.subscribe((activeUser) => {
       this.activeUser = activeUser;
     });
@@ -60,7 +75,7 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
           console.log(this.matVideo.getVideoTag());
         }
       });
-  }
+  } */
 
   public saveTime(): void {
     console.log("test1");

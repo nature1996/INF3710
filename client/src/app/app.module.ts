@@ -16,6 +16,7 @@ import { FilmListComponent } from "./film-list/film-list.component";
 import { LoginComponent } from "./login/login.component";
 
 import { MatVideoModule } from "mat-video";
+import { AcheterFilmComponent } from "./acheter-film/acheter-film.component";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MatVideoModule } from "mat-video";
     EcouterVideoComponent,
     AddFilmComponent,
     AdminPageComponent,
+    AcheterFilmComponent,
   ],
   imports: [
     CommonModule,

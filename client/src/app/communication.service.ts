@@ -116,7 +116,28 @@ export class CommunicationService {
     });
   }
 
+  public insertCommandVisionement(
+    utilisateur: Utilisateur,
+    filmID: number
+  ): Observable<number> {
+    return new Observable<number>((observer) => {
+      observer.next(1);
+    });
+  }
+
   public modifierFilm(film: Film): Observable<number> {
+    return new Observable<number>((observer) => {
+      observer.next(1);
+    });
+  }
+
+  public modifierVisionement(
+    film: Film,
+    visionement: Visionement,
+    duree: number
+  ): Observable<number> {
+    console.log(duree);
+
     return new Observable<number>((observer) => {
       observer.next(1);
     });

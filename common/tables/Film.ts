@@ -4,5 +4,6 @@ export interface Film {
   genre: string;
   dateProduction: number;
   duree: number;
+  html: string;
   prix?: number;
 }

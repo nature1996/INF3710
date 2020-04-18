@@ -11,6 +11,7 @@ export const films: Film[] = [
     genre: "test",
     dateProduction: 10,
     duree: 190,
+    html: "http://static.videogular.com/assets/videos/videogular.mp4",
   },
   {
     numero: 1,
@@ -18,6 +19,7 @@ export const films: Film[] = [
     genre: "testing",
     dateProduction: 11,
     duree: 190,
+    html: "http://static.videogular.com/assets/videos/videogular.mp4",
     prix: 10.28,
   },
 ];
@@ -55,5 +57,4 @@ export const tempUser: Utilisateur = {
 
 export const visionement0: Visionement = {
   duree: 12,
-  html: "http://static.videogular.com/assets/videos/videogular.mp4",
 };

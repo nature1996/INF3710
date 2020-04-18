@@ -8,6 +8,7 @@ const RESETFORM = {
   genre: "",
   dateProduction: null,
   duree: null,
+  html: "",
   prix: null,
 };
 

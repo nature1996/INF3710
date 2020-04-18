@@ -1,6 +1,6 @@
 <div>
-  <div>
-    <div class="content video" onunload="saveTime()">
+  <div *ngIf="visionement != null">
+    <div class="content video">
       <mat-video #video src="ssa"> </mat-video>
     </div>
   </div>

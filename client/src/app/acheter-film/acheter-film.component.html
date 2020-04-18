@@ -1,0 +1,9 @@
+<div *ngIf="visionement == null">
+  <h2>Vous ne possédez pas se film</h2>
+  <button
+    (click)="acheterFilm()"
+    [disabled]="!activeUser || !activeUser.membre"
+  >
+    Acheter
+  </button>
+</div>

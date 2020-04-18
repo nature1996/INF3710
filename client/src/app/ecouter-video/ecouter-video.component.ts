@@ -1,16 +1,17 @@
 import {
+  AfterViewChecked,
+  AfterViewInit,
   Component,
   OnInit,
-  Renderer2,
   ViewChild,
-  AfterViewInit,
-  ElementRef,
 } from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { switchMap } from "rxjs/operators";
 
 import { MatVideoComponent } from "mat-video/lib/video.component";
+import { Observable } from "rxjs";
 import { Visionement } from "../../../../common/request/Visionement";
+import { Film } from "../../../../common/tables/Film";
 import { Utilisateur } from "../../../../common/tables/Utilisateur";
 import { CommunicationService } from "../communication.service";
 
@@ -20,64 +21,65 @@ import { CommunicationService } from "../communication.service";
   styleUrls: ["./ecouter-video.component.css"],
 })
 export class EcouterVideoComponent implements OnInit, AfterViewInit {
-  @ViewChild("video") matVideo: MatVideoComponent;
-  @ViewChild("videoSrc") videoSrc: ElementRef;
+  @ViewChild("video") public matVideo: MatVideoComponent;
 
   public constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private communicationService: CommunicationService,
-    private renderer: Renderer2
+    private communicationService: CommunicationService
   ) {}
 
   public activeUser: Utilisateur;
+  public film: Film;
   public visionement: Visionement;
 
-  public vid: string;
-
-  public ngOnInit(): void {}
-  /* public ngAfterViewInit(): void {
-    this.communicationService.activeUser.subscribe((activeUser) => {
-      this.activeUser = activeUser;
-    });
-
-    this.vid = "http://static.videogular.com/assets/videos/videogular.mp4";
-    this.matVideo
-      .getVideoTag()
-      .setAttribute(
-        "src",
-        "http://static.videogular.com/assets/videos/videogular.mp4"
-      );
-  } */
-  public ngAfterViewInit(): void {
+  public ngOnInit(): void {
     this.communicationService.activeUser.subscribe((activeUser) => {
       this.activeUser = activeUser;
     });
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) =>
-          this.communicationService.getVisionementInfo(
+          this.communicationService.getFilmDetail(
             parseInt(params.get("filmID"), 10)
           )
         )
       )
+      .subscribe((film: Film) => {
+        this.film = film;
+        console.log("got film with id:", this.film.numero);
+      });
+
+    this.getVisionemnt();
+  }
+
+  public getVisionemnt(): void {
+    this.communicationService
+      .getVisionementInfo(this.film.numero)
       .subscribe((visionement: Visionement) => {
-        this.visionement = visionement;
-        if (this.visionement !== null) {
-          this.videoSrc.nativeElement.setAttribute(
-            "src",
-            this.visionement.html
-          );
-          this.matVideo
-            .getVideoTag()
-            .setAttribute("src", this.visionement.html);
-          this.matVideo.time = this.visionement.duree;
-          console.log(this.matVideo.getVideoTag());
+        if (visionement === null) {
+          this.router.navigate(["acheter/", this.film.numero]);
         }
+        this.visionement = visionement;
       });
   }
 
-  public saveTime(): void {
-    console.log("test1");
+  public ngAfterViewInit(): void {
+    if (this.visionement !== null) {
+      this.matVideo.getVideoTag().setAttribute("src", this.film.html);
+      this.matVideo.time = this.visionement.duree;
+    }
+  }
+
+  public canDeactivate(): Observable<boolean> | boolean {
+    if (this.visionement !== null) {
+      this.communicationService
+        .modifierVisionement(this.film, this.visionement, this.matVideo.time)
+        .subscribe((observer) => {
+          console.log(observer);
+        });
+    }
+
+    return true;
   }
 }

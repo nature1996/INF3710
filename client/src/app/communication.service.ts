@@ -90,6 +90,8 @@ export class CommunicationService {
       observer.next(oscarsFilm);
     });
   }
+  /*
+  public getVisionementInfo(filmID: number, UID: number): Observable<any> {} */
 
   public insertFilm(film: Film): Observable<number> {
     return new Observable<number>((observer) => {

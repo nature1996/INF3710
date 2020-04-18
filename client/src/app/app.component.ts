@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Utilisateur } from "../../../common/tables/Utilisateur";
 import { CommunicationService } from "./communication.service";
@@ -9,7 +9,7 @@ import { CommunicationService } from "./communication.service";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public title = "Netflix_poly";
   public route: string;
   public activeUser: Utilisateur;
@@ -27,6 +27,10 @@ export class AppComponent {
     this.communicationService.activeUser.subscribe((observer) => {
       this.activeUser = observer;
     });
+  }
+
+  public ngOnInit(): void {
+    console.log("hello");
   }
 
   public logOut(): void {

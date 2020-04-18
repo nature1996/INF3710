@@ -1,0 +1,240 @@
+SET search_path = Netflix_Poly;
+
+DROP SCHEMA IF EXISTS Netflix_Poly CASCADE;
+
+CREATE SCHEMA Netflix_Poly;
+
+
+
+CREATE TABLE Netflix_Poly.Adresse
+(   idAdresse          serial,
+    noRue              smallint,
+    nomRue             varchar(30),
+    ville              varchar(30),
+    codePostal         varchar(6),
+	Province           varchar(20),
+	pays               varchar(20),
+    PRIMARY KEY (idAdresse)    
+);
+ALTER SEQUENCE netflix_poly.adresse_idadresse_seq RESTART WITH 1; --parfois necessaire pour les tests 
+
+--Utilisateur(UID, motDePasseCrypte, nom, idAdresse, Membre); 
+--PK: UID 
+--FK: idAdresse References Adresse(idAdresse) 
+--# Membre -> bool 
+
+CREATE TABLE Netflix_Poly.Utilisateur
+(
+    UID               serial,
+    motDePasseCrypte  varchar(256),
+    nom               varchar(30),
+    courrier          varchar(30),	
+	idAdresse         smallint,   
+    membre      	  boolean,
+    PRIMARY KEY (UID),
+	FOREIGN KEY (idAdresse) REFERENCES Netflix_Poly.Adresse(idAdresse)
+);
+ALTER SEQUENCE netflix_poly.utilisateur_uid_seq RESTART WITH 1; --parfois necessaire pour les tests 
+
+--Membre(UID, prixAbonnement, dateDebut, dateEcheance); 
+--PK: UID 
+--FK: UID References Utilisateur(UID) 
+
+CREATE TABLE Netflix_Poly.Membre
+(
+    UID               smallint,
+	courrier          varchar(30) not null,
+    prixAbonnement    numeric(4,2) not null,
+    dateDebut         date not null, 
+	dateEcheance      date not null,   
+    PRIMARY KEY (UID),
+	FOREIGN KEY (UID) REFERENCES Netflix_Poly.Utilisateur(UID)
+);
+
+
+
+CREATE TABLE Netflix_Poly.NonMembre
+(
+    UID                   smallint,
+    filmPayPerView        numeric(4,2),
+    PRIMARY KEY (UID),
+	FOREIGN KEY (UID) REFERENCES Netflix_Poly.Utilisateur(UID)
+);
+
+ --ALTER SEQUENCE constructeur_idConstructeur_seq RESTART WITH 1; parfois necessaire pour les test
+ 
+
+--CarteDeCredit(UID, numero, titulaire, dateExpiration, CCV)??? 
+--PK: (UID, numero) 
+--FK: UID References Utilisateur(UID) 
+
+CREATE TABLE Netflix_Poly.CarteDeCredit 
+(
+    UID                 smallint,
+	numero              varchar(20),
+    reseauDecarte       varchar(20) not null,
+    titulaire           varchar(11) not null,
+    dateExpiration      date not null,
+	ccv                 smallint not null,
+    PRIMARY KEY (UID, numero),
+    FOREIGN KEY (UID) REFERENCES Netflix_Poly.Utilisateur(UID)
+);
+--ALTER SEQUENCE avion_idAvion_seq RESTART WITH 1; parfois necessaire pour les test
+
+
+--Personne(personneID, nom, dateDeNaissance, sexe, nationalite) 
+--PK: personneID 
+
+CREATE TABLE Netflix_Poly.Personne
+(
+    personneID     serial,
+    nom            varchar(30) not null,
+    dateNaissance  date,                     -- Modification, meilleure modelisation qu'avec l'age
+    sexe		   CHAR
+				   CONSTRAINT personne_sexeCHK   CHECK (sexe IN ('M','F')),	
+    nationalite    varchar(20),
+    PRIMARY KEY (personneID)
+);
+ALTER SEQUENCE personne_personneID_seq RESTART WITH 1;  --parfois necessaire pour les test
+
+
+--Film(numero, titre, genre, dateProduction, duree, prix) 
+--PK: numero
+
+CREATE TABLE Netflix_Poly.Film
+(
+    numero         serial,
+    titre          varchar(30) not null,
+    genre          varchar(20) not null,
+	dateProduction date not null,
+    duree          smallint not null,
+	prix           numeric(3,2),
+    PRIMARY KEY (numero)
+);
+
+ALTER SEQUENCE netflix_poly.film_numero_seq RESTART WITH 1; --parfois necessaire pour les test
+
+
+--roleFilm(filmID, roleName, personneID, salaire) 
+--PK:(filmID, roleName, personneID) 
+--FK: filmID References Film(filmID) 
+--personneID References Personne(personneID) 
+
+CREATE TABLE Netflix_Poly.roleFilm   --Association entre personne et film avec role
+(
+    personneID    smallint,
+    noFilm        smallint,
+    roleName      varchar(20),
+    salaire       numeric,
+    PRIMARY KEY (personneID, noFilm, roleName),
+    FOREIGN KEY (personneID) REFERENCES Netflix_Poly.Personne(personneID),
+    FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
+);
+
+--DVD(filmID, dvdID, disponible) 
+--PK: (filmID, dvdID) 
+--FK: filmID References Film(filmID)
+
+CREATE TABLE Netflix_Poly.DVD
+(
+    noFilm            smallint,
+    numero            smallint not null,
+	disponibilite     boolean,
+    PRIMARY KEY (noFilm, numero),
+	FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
+    
+);
+
+
+--CREATE TABLE Netflix_Poly.DVDFilm   --Association entre DVD et film
+--(
+--    noDVD         smallint,
+--   noFilm        smallint,
+--    PRIMARY KEY (noDVD, noFilm),
+--    FOREIGN KEY (noDVD) REFERENCES Netflix_Poly.DVD(numero),
+--    FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
+--);
+
+
+--Commande(numero, date, typeCommande, cout, statut, membre)
+--Commande(commandeID, UID, filmID, type) 
+--PK: commandeID 
+--FK: UID References Utilisateur(UID) 
+--filmID References Film(filmID) 
+
+CREATE TABLE Netflix_Poly.Commande   --Relation commande   Il faudra faire le lien avec une carte de credit?
+(
+    numero         serial,
+    dateCommande   date,
+	cout           numeric(4,2),
+	UID            smallint,
+    PRIMARY KEY (numero),
+    FOREIGN KEY (UID) REFERENCES Netflix_Poly.Utilisateur(UID)
+ );
+--netflix_poly.commande_numero_seq
+ALTER SEQUENCE netflix_poly.commande_numero_seq RESTART WITH 1; --parfois necessaire pour les test
+
+
+--Visionnement(numero, date, duree, dureeCompletee, film, commande)
+--Visionnement(commandeID, date, duree) 
+--PK: commandeID 
+--FK: commandeID References Commande(commandeID) 
+
+CREATE TABLE Netflix_Poly.Visionnement   --Relation commande
+(
+    numero             serial,
+    dateVisionnement   date,
+	duree              smallint,
+	noCommande         smallint,
+    PRIMARY KEY (numero),
+    FOREIGN KEY (noCommande) REFERENCES Netflix_Poly.Commande(numero)    
+);
+ALTER SEQUENCE netflix_poly.visionnement_numero_seq RESTART WITH 1; --parfois necessaire pour les tests
+
+
+
+--Livraison(commandeID, cout, dateEnvoi)?? 
+--PK: commandeID 
+--FK: commandeID References Commande(commandeID)
+
+CREATE TABLE Netflix_Poly.CommandeFilm   --Association entre commande et film
+(
+    noFilm	 		  smallint,
+    noCommande        smallint,
+	typeCommande      varchar(5)  not null
+	                  CONSTRAINT commande_typeCHK   CHECK (typeCommande IN ('DVD','VISIO')),
+	PRIMARY KEY (noFilm, noCommande),
+    FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero),
+    FOREIGN KEY (noCommande) REFERENCES Netflix_Poly.Commande(numero)
+);
+
+
+
+--CeremonieOscars(date, maitre, lieux) 
+--PK: date 
+
+--Oscar(annee, dateCeremonie, lieuCeremonie, maitreCeremonie)
+CREATE TABLE Netflix_Poly.CeremonieOscars
+(
+    dateOscar             date,
+    lieu             varchar(50) not null,
+    maitre           varchar(30) not null,
+    PRIMARY KEY (dateOscar)
+    
+);
+
+--Oscars(date, categorie, filmID, victoire) 
+--PK: (date, categorie, filmID) 
+--FK: filmID References Film(filmID) 
+--   date References CeremonieOscars(date) 
+
+CREATE TABLE Netflix_Poly.Oscars   
+(
+    dateOscar     date,
+    noFilm        smallint,
+    categorie     varchar(30) not null,
+	issue         varchar(6),
+    PRIMARY KEY (dateOscar, noFilm, categorie),
+    FOREIGN KEY (dateOscar) REFERENCES Netflix_Poly.CeremonieOscars(dateOscar),
+    FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
+);

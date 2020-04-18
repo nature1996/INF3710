@@ -36,7 +36,7 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
   public vid: string;
 
   public ngOnInit(): void {}
-  public ngAfterViewInit(): void {
+  /* public ngAfterViewInit(): void {
     this.communicationService.activeUser.subscribe((activeUser) => {
       this.activeUser = activeUser;
     });
@@ -48,8 +48,8 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
         "src",
         "http://static.videogular.com/assets/videos/videogular.mp4"
       );
-  }
-  /* public ngAfterViewInit(): void {
+  } */
+  public ngAfterViewInit(): void {
     this.communicationService.activeUser.subscribe((activeUser) => {
       this.activeUser = activeUser;
     });
@@ -75,7 +75,7 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
           console.log(this.matVideo.getVideoTag());
         }
       });
-  } */
+  }
 
   public saveTime(): void {
     console.log("test1");

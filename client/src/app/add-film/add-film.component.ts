@@ -82,7 +82,10 @@ export class AddFilmComponent implements OnInit {
   }
 
   public suprimerFilm(film: Film): void {
-    console.log("supression du film:", film);
+    this.communicationService.deleteFilm(film.numero).subscribe((observer) => {
+      console.log(observer);
+      this.getFilms();
+    });
   }
 
   public verifierID(): void {

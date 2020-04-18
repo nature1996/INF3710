@@ -1,5 +1,5 @@
 export interface RoleActeur {
-    "nom": string;
-    "role": string;
-    "salaire": number;
+  nom: string;
+  role: string;
+  salaire: number;
 }

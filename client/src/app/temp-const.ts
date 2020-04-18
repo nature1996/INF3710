@@ -1,4 +1,5 @@
 import { RoleActeur } from "../../../common/request/RoleActeur";
+import { Visionement } from "../../../common/request/Visionement";
 import { Film } from "../../../common/tables/Film";
 import { Oscar } from "../../../common/tables/Oscar";
 import { Utilisateur } from "../../../common/tables/Utilisateur";
@@ -50,4 +51,9 @@ export const tempUser: Utilisateur = {
   nom: "Nt6 19",
   membre: true,
   idAdresse: 0,
+};
+
+export const visionement0: Visionement = {
+  duree: 12,
+  html: "http://static.videogular.com/assets/videos/videogular.mp4",
 };

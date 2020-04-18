@@ -1,7 +1,16 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  ViewChild,
+  AfterViewInit,
+  ElementRef,
+} from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { switchMap } from "rxjs/operators";
-import { Film } from "../../../../common/tables/Film";
+
+import { MatVideoComponent } from "mat-video/lib/video.component";
+import { Visionement } from "../../../../common/request/Visionement";
 import { Utilisateur } from "../../../../common/tables/Utilisateur";
 import { CommunicationService } from "../communication.service";
 
@@ -10,30 +19,50 @@ import { CommunicationService } from "../communication.service";
   templateUrl: "./ecouter-video.component.html",
   styleUrls: ["./ecouter-video.component.css"],
 })
-export class EcouterVideoComponent implements OnInit {
+export class EcouterVideoComponent implements OnInit, AfterViewInit {
+  @ViewChild("video") matVideo: MatVideoComponent;
+  @ViewChild("videoSrc") videoSrc: ElementRef;
+
   public constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private communicationService: CommunicationService
+    private communicationService: CommunicationService,
+    private renderer: Renderer2
   ) {}
 
   public activeUser: Utilisateur;
+  public visionement: Visionement;
 
-  public ngOnInit(): void {
+  public ngOnInit(): void {}
+  public ngAfterViewInit(): void {
     this.communicationService.activeUser.subscribe((activeUser) => {
       this.activeUser = activeUser;
     });
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) =>
-          this.communicationService.getFilmDetail(
+          this.communicationService.getVisionementInfo(
             parseInt(params.get("filmID"), 10)
           )
         )
       )
-      .subscribe((film: Film) => {
-        /* this.film = film;
-        console.log("got film with id:", this.film.numero); */
+      .subscribe((visionement: Visionement) => {
+        this.visionement = visionement;
+        if (this.visionement !== null) {
+          this.videoSrc.nativeElement.setAttribute(
+            "src",
+            this.visionement.html
+          );
+          this.matVideo
+            .getVideoTag()
+            .setAttribute("src", this.visionement.html);
+          this.matVideo.time = this.visionement.duree;
+          console.log(this.matVideo.getVideoTag());
+        }
       });
+  }
+
+  public saveTime(): void {
+    console.log("test1");
   }
 }

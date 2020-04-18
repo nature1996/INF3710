@@ -12,11 +12,18 @@ import {
 import { catchError } from "rxjs/operators";
 
 import { RoleActeur } from "../../../common/request/RoleActeur";
+import { Visionement } from "../../../common/request/Visionement";
 import { Film } from "../../../common/tables/Film";
 import { Oscar } from "../../../common/tables/Oscar";
 import { Utilisateur } from "../../../common/tables/Utilisateur";
 
-import { films, oscarsFilm, rolesFilm, tempUser } from "./temp-const";
+import {
+  films,
+  oscarsFilm,
+  rolesFilm,
+  tempUser,
+  visionement0,
+} from "./temp-const";
 
 // tslint:disable: no-any
 
@@ -90,8 +97,18 @@ export class CommunicationService {
       observer.next(oscarsFilm);
     });
   }
-  /*
-  public getVisionementInfo(filmID: number, UID: number): Observable<any> {} */
+
+  public getVisionementInfo(
+    filmID: number // UID from this._activeUser.getValue().UID
+  ): Observable<Visionement> {
+    return new Observable<Visionement>((observer) => {
+      if (filmID === 0) {
+        observer.next(visionement0);
+      } else {
+        observer.next(null);
+      }
+    });
+  }
 
   public insertFilm(film: Film): Observable<number> {
     return new Observable<number>((observer) => {

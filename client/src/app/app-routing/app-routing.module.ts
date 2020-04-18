@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { AcheterFilmComponent } from "../acheter-film/acheter-film.component";
 import { AddFilmComponent } from "../add-film/add-film.component";
+import { AddUserComponent } from "../add-user/add-user.component";
 import { AdminPageComponent } from "../admin-page/admin-page.component";
 import { AppComponent } from "../app.component";
 import { CanDeactivateGuard } from "../can-deactivate.guard";
@@ -23,6 +24,7 @@ const routes: Routes = [
   },
   { path: "acheter/:filmID", component: AcheterFilmComponent },
   { path: "admin/ajouterfilm", component: AddFilmComponent },
+  { path: "admin/ajouterutilisateur", component: AddUserComponent },
   { path: "admin", component: AdminPageComponent },
 ];
 

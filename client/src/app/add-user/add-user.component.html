@@ -1,0 +1,117 @@
+<div style="text-align: left;">
+  <a routerLink="/admin">Retour a l'acceuil administrateur </a>
+</div>
+<div>
+  <div>
+    <ul>
+      Nom :
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire1.nom"
+          class="form-control col-md-4"
+          #nom
+        />
+      </li>
+      E-mail :
+      <li>
+        <input
+          type="email"
+          [(ngModel)]="formulaire1.courrier"
+          class="form-control col-md-4"
+          #email
+        />
+      </li>
+      Mot de passe
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire1.motDePasse"
+          class="form-control col-md-4"
+          #password
+        />
+      </li>
+      <li>
+        <input type="checkbox" [(ngModel)]="formulaire1.membre" #membre />
+        est membre
+      </li>
+      <p></p>
+      Adresse
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire2.noRue"
+          class="form-control col-md-4"
+          #noRue
+        />
+      </li>
+      Adresse
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire2.noRue"
+          class="form-control col-md-4"
+          #noRue
+        />
+      </li>
+      Rue
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire2.nomRue"
+          class="form-control col-md-4"
+          #nomRue
+        />
+      </li>
+      Ville
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire2.Ville"
+          class="form-control col-md-4"
+          #Ville
+        />
+      </li>
+      Code Postal
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire2.codePostal"
+          class="form-control col-md-4"
+          #codePostal
+        />
+      </li>
+      Province
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire2.Province"
+          class="form-control col-md-4"
+          #Province
+        />
+      </li>
+      Pays
+      <li>
+        <input
+          type="text"
+          [(ngModel)]="formulaire2.pays"
+          class="form-control col-md-4"
+          #pays
+        />
+      </li>
+      <div>
+        <!-- <button
+          type="button"
+          class="btn btn-primary"
+          (click)="confirmFilm()"
+          [disabled]="!isValidID"
+        >
+          Confirmer
+        </button> -->
+        <!-- <button type="button" class="btn btn-primary" (click)="resetForm()">
+          Reset
+        </button> -->
+      </div>
+    </ul>
+  </div>
+</div>

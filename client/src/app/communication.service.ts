@@ -13,6 +13,7 @@ import { catchError } from "rxjs/operators";
 
 import { RoleActeur } from "../../../common/request/RoleActeur";
 import { Visionement } from "../../../common/request/Visionement";
+import { Adresse } from "../../../common/tables/Adresse";
 import { Film } from "../../../common/tables/Film";
 import { Oscar } from "../../../common/tables/Oscar";
 import { Utilisateur } from "../../../common/tables/Utilisateur";
@@ -107,6 +108,15 @@ export class CommunicationService {
       } else {
         observer.next(null);
       }
+    });
+  }
+
+  public insertUtilisateur(
+    utilisateur: Utilisateur,
+    adresse: Adresse
+  ): Observable<number> {
+    return new Observable<number>((observer) => {
+      observer.next(1);
     });
   }
 

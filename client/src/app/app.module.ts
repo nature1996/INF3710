@@ -17,6 +17,7 @@ import { LoginComponent } from "./login/login.component";
 
 import { MatVideoModule } from "mat-video";
 import { AcheterFilmComponent } from "./acheter-film/acheter-film.component";
+import { AddUserComponent } from "./add-user/add-user.component";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AcheterFilmComponent } from "./acheter-film/acheter-film.component";
     AddFilmComponent,
     AdminPageComponent,
     AcheterFilmComponent,
+    AddUserComponent,
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,5 @@
 export interface Oscar {
-  dateOscar: number;
+  dateOscar: Date;
   noFilm: number;
   categorie: string;
   issue: string;

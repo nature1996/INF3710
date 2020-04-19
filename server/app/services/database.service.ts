@@ -58,6 +58,28 @@ export class DatabaseService {
     );
   }
 
+  public async getRoles(noFilm: number): Promise<pg.QueryResult> {
+    return this.pool.query(
+      `SELECT p.nom, rf.roleName, rf.salaire
+      FROM Netflix_Poly.personne p, Netflix_Poly.roleFilm rf
+      WHERE rf.noFilm = \'${noFilm}\'
+      AND   rf.personneID=p.personneID;`
+    );
+  }
+
+  public async getVisionement(
+    UID: number,
+    noFilm: number
+  ): Promise<pg.QueryResult> {
+    return this.pool.query(
+      `SELECT v.duree
+      FROM netflix_poly.Commande c, netflix_poly.Visionement v 
+      WHERE v.noFilm=\'${noFilm}\'
+      AND c.UID=\'${UID}\'
+      AND c.numero=v.noComande;`
+    );
+  }
+
   // HOTEL
   public getHotels(): Promise<pg.QueryResult> {
     return this.pool.query("SELECT * FROM HOTELDB.Hotel;");

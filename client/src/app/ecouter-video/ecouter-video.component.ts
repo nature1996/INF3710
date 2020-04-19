@@ -10,7 +10,7 @@ import { switchMap } from "rxjs/operators";
 
 import { MatVideoComponent } from "mat-video/lib/video.component";
 import { Observable } from "rxjs";
-import { Visionement } from "../../../../common/request/Visionement";
+import { Visionement } from "../../../../common/tables/Visionement";
 import { Film } from "../../../../common/tables/Film";
 import { Utilisateur } from "../../../../common/tables/Utilisateur";
 import { CommunicationService } from "../communication.service";

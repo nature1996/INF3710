@@ -63,7 +63,7 @@ export class FilmDetailComponent implements OnInit {
 
   public getAnnee(film: Film): string {
     let annee: string = "";
-    annee += film.dateProduction;
+    annee += new Date(film.dateProduction).getFullYear();
 
     return annee;
   }

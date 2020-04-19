@@ -13,30 +13,18 @@ import {
 import { catchError } from "rxjs/operators";
 
 import { RoleActeur } from "../../../common/request/RoleActeur";
-import { Visionement } from "../../../common/request/Visionement";
 import { Adresse } from "../../../common/tables/Adresse";
 import { Film } from "../../../common/tables/Film";
 import { Oscar } from "../../../common/tables/Oscar";
 import { Utilisateur } from "../../../common/tables/Utilisateur";
+import { Visionement } from "../../../common/tables/Visionement";
 
-import {
-  films,
-  oscarsFilm,
-  rolesFilm,
-  tempUser,
-  visionement0,
-} from "./temp-const";
+import { tempUser } from "./temp-const";
 
 // tslint:disable: no-any
 
 @Injectable()
 export class CommunicationService {
-  // TODO: remove when linked
-  private _films: Observable<Film[]> = new Observable((observer) => {
-    observer.next(films);
-  });
-  // end
-
   private readonly BASE_URL: string = "http://localhost:3000/database";
   public constructor(private http: HttpClient, private router: Router) {}
 
@@ -56,16 +44,10 @@ export class CommunicationService {
     this._listners.next(filterBy);
   }
 
-  private encript(motDePasse: string): string {
-    // TODO: add encription
-    return motDePasse;
-  }
-
   public logIn(couriel: string, motDePasse: string): void {
     new Observable<Utilisateur>((observer) => {
       observer.next(
-        couriel === "nature1996@polymtl.ca" &&
-          this.encript(motDePasse) === "123456"
+        couriel === "nature1996@polymtl.ca" && motDePasse === "123456"
           ? tempUser
           : null
       );
@@ -92,27 +74,27 @@ export class CommunicationService {
   }
 
   public getRoleFilm(filmID: number): Observable<any> {
-    return new Observable<RoleActeur[]>((observer) => {
-      observer.next(rolesFilm);
-    });
+    return this.http
+      .get<RoleActeur[]>(this.BASE_URL + "/roles/" + filmID)
+      .pipe(catchError(this.handleError<RoleActeur[]>("roles/:nofilm")));
   }
 
   public getOscarFilm(filmID: number): Observable<any> {
-    return new Observable<Oscar[]>((observer) => {
-      observer.next(oscarsFilm);
-    });
+    return this.http
+      .get<Oscar[]>(this.BASE_URL + "/oscars/" + filmID)
+      .pipe(catchError(this.handleError<Oscar[]>("oscars/:nofilm")));
   }
 
   public getVisionementInfo(
     filmID: number // UID from this._activeUser.getValue().UID
   ): Observable<Visionement> {
-    return new Observable<Visionement>((observer) => {
-      if (filmID === 0) {
-        observer.next(visionement0);
-      } else {
-        observer.next(null);
-      }
-    });
+    return this.http
+      .get<Visionement>(
+        this.BASE_URL +
+          "/visionement/" +
+          { UID: this._activeUser.getValue.UID, filmID: filmID }
+      )
+      .pipe(catchError(this.handleError<Visionement>("oscars/:nofilm")));
   }
 
   public insertUtilisateur(

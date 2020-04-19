@@ -5,7 +5,10 @@ import * as pg from "pg";
 import { DatabaseService } from "../services/database.service";
 import Types from "../types";
 
+import { RoleActeur } from "../../../common/request/RoleActeur";
 import { Film } from "../../../common/tables/Film";
+import { Oscar } from "../../../common/tables/Oscar";
+import { Visionement } from "../../../common/tables/Visionement";
 
 @injectable()
 export class DatabaseController {
@@ -53,13 +56,11 @@ export class DatabaseController {
             numero: film.numero,
             titre: film.titre,
             genre: film.genre,
-            dateProduction: film.dateProduction,
+            dateProduction: film.dateproduction,
             duree: film.duree,
             html: film.html,
             prix: film.prix,
           }));
-          // todo: remove
-          console.log(result.rows[1]);
           res.json(films);
         })
         .catch((e: Error) => {
@@ -77,12 +78,11 @@ export class DatabaseController {
               numero: film.numero,
               titre: film.titre,
               genre: film.genre,
-              dateProduction: film.dateProduction,
+              dateProduction: film.dateproduction,
               duree: film.duree,
               html: film.html,
               prix: film.prix,
             }));
-            console.log(films);
             res.json(films[0]);
           })
           .catch((e: Error) => {
@@ -91,6 +91,66 @@ export class DatabaseController {
       }
     );
 
+    router.get(
+      "/oscars/:nofilm",
+      (req: Request, res: Response, next: NextFunction) => {
+        this.databaseService
+          .getOscars(req.params.nofilm)
+          .then((result: pg.QueryResult) => {
+            const oscars: Oscar[] = result.rows.map((oscar: any) => ({
+              dateOscar: oscar.dateoscar,
+              noFilm: oscar.nofilm,
+              categorie: oscar.categorie,
+              issue: oscar.issue,
+            }));
+            res.json(oscars);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+          });
+      }
+    );
+
+    router.get(
+      "/roles/:nofilm",
+      (req: Request, res: Response, next: NextFunction) => {
+        this.databaseService
+          .getRoles(req.params.nofilm)
+          .then((result: pg.QueryResult) => {
+            const roles: RoleActeur[] = result.rows.map((role: any) => ({
+              nom: role.nom,
+              role: role.rolename,
+              salaire: role.salaire,
+            }));
+            res.json(roles);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+          });
+      }
+    );
+
+    router.get(
+      "/visionement/:rinfo",
+      (req: Request, res: Response, next: NextFunction) => {
+        this.databaseService
+          .getVisionement(req.params.rinfo.UID, req.params.rinfo.noFilm)
+          .then((result: pg.QueryResult) => {
+            const visionement: Visionement[] = result.rows.map((cmd: any) => ({
+              noFilm: cmd.nofilm,
+              dateVisionement: cmd.datevisionement,
+              duree: cmd.duree,
+              noCommande: cmd.nocommande,
+            }));
+            res.json(visionement[0]);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+          });
+      }
+    );
+
+    //Hotel
     router.get(
       "/hotel/hotelNo",
       (req: Request, res: Response, next: NextFunction) => {

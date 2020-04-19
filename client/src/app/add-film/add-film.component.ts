@@ -65,6 +65,7 @@ export class AddFilmComponent implements OnInit {
   }
 
   public confirmFilm(): void {
+    console.log(this.formulaire);
     if (this.formulaire.numero == null) {
       this.communicationService.insertFilm(this.formulaire).subscribe(() => {
         this.getFilms();

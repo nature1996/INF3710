@@ -1,5 +1,6 @@
 // tslint:disable: max-line-length
-export const data: string = `SET search_path = Netflix_Poly;
+export const data: string = `
+SET search_path = Netflix_Poly;
 
 
 --Suppresion des anciennes donnees
@@ -61,7 +62,7 @@ INSERT INTO Netflix_Poly.CarteDeCredit(UID, numero, reseauDecarte, titulaire, da
 INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('The Matrix', 'SCI-FI/ACTION','1999-03-31',136);
 INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('The Matrix Reloaded', 'SCI-FI/ACTION','2003-05-07',138);
 INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('The Matrix Revolutions', 'SCI-FI/ACTION','2003-11-05',129);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('War Room', 'Christian drama','2015-08-28',120);
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('War Room', 'Christian drama','2015-08-28',120, 'http://static.videogular.com/assets/videos/videogular.mp4');
 INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Overcomer', 'Christian drama','2019-08-23',115);
 INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Who Framed Roger Rabbit', 'Live Action','1988-06-22',104);
 INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Paris-Manhattan', 'Comedy','2012-07-18',77);
@@ -249,9 +250,6 @@ INSERT INTO Netflix_Poly.Oscars(dateOscar,noFilm,categorie,issue) VALUES ('2019-
 INSERT INTO Netflix_Poly.Oscars(dateOscar,noFilm,categorie,issue) VALUES ('2019-02-24', 20, 'Meilleur scenario adapte','NOMINE');
 INSERT INTO Netflix_Poly.Oscars(dateOscar,noFilm,categorie,issue) VALUES ('2003-03-23', 21, 'Meilleur realisateur','NOMINE');
 
-
-
-
 -- DVD
 --DELETE FROM Netflix_Poly.DVD; --pour nettoyage prealable
 --ALTER SEQUENCE avion_idAvion_seq RESTART WITH 1; parfois necessaire pour redemarrer la sequence
@@ -271,4 +269,5 @@ INSERT INTO Netflix_Poly.DVDFilm(noDVD, noFilm) VALUES (1, 3);
 INSERT INTO Netflix_Poly.DVDFilm(noDVD, noFilm) VALUES (2, 4);
 INSERT INTO Netflix_Poly.DVDFilm(noDVD, noFilm) VALUES (2, 5);
 
-*/`;
+*/
+`;

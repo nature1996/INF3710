@@ -80,6 +80,68 @@ export class DatabaseService {
     );
   }
 
+  public async createUtilisateur(
+    noRue: string,
+    nomRue: string,
+    ville: string,
+    codePostal: string,
+    // tslint:disable-next-line: variable-name
+    Province: string,
+    pays: string,
+    motDePasse: string,
+    nom: string,
+    courrier: string,
+    membre: string
+  ): Promise<pg.QueryResult> {
+    const values: string[] = [
+      noRue,
+      nomRue,
+      ville,
+      codePostal,
+      Province,
+      pays,
+      motDePasse,
+      nom,
+      courrier,
+      membre,
+    ];
+    const queryText: string = `INSERT INTO netflix_poly.Adresse (noRue, nomRue, Ville, codePostal, Province, pays)
+     VALUES($1, $2, $3, $4, $5, $6);
+
+     INSERT INTO netflix_poly.Utilisateur (motDePasseCrypte, nom, courrier, idAdresse, membre)
+     VALUES($7, $8, $9, scope_identity(), $10);`;
+
+    return this.pool.query(queryText, values);
+  }
+
+  public async createFilm(
+    titre: string,
+    genre: string,
+    dateProduction: string,
+    duree: string,
+    html: string,
+    prix: string
+  ): Promise<pg.QueryResult> {
+    const values: string[] = [titre, genre, dateProduction, duree, prix, html];
+    const queryText: string = `INSERT INTO netflix_poly.film (titre, genre, dateProduction, duree, prix, lien)
+     VALUES($1, $2, $3, $4, $5, $6);`;
+
+    return this.pool.query(queryText, values);
+  }
+
+  public async modifyVisionnement(
+    noFilm: string,
+    noCommande: string,
+    duree: string
+  ): Promise<pg.QueryResult> {
+    const values: string[] = [noFilm, noCommande, duree];
+    const queryText: string = `UPDATE netflix_poly.Visionnement
+    SET duree = $3
+    WHERE noFilm = $1 AND noCommande = $2`;
+
+    return this.pool.query(queryText, values);
+  }
+
   // HOTEL
   public async createHotel(
     hotelNo: string,

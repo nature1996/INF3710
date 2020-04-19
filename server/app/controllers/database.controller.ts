@@ -58,7 +58,7 @@ export class DatabaseController {
             genre: film.genre,
             dateProduction: film.dateproduction,
             duree: film.duree,
-            html: film.html,
+            html: film.lien,
             prix: film.prix,
           }));
           res.json(films);
@@ -80,7 +80,7 @@ export class DatabaseController {
               genre: film.genre,
               dateProduction: film.dateproduction,
               duree: film.duree,
-              html: film.html,
+              html: film.lien,
               prix: film.prix,
             }));
             res.json(films[0]);
@@ -131,11 +131,10 @@ export class DatabaseController {
     );
 
     router.get(
-      "/visionnement/:rinfo",
+      "/visionnement/:UID/:filmID",
       (req: Request, res: Response, next: NextFunction) => {
-        console.log([req.params.rinfo.UID, req.params.rinfo.noFilm]);
         this.databaseService
-          .getVisionement(req.params.rinfo.UID, req.params.rinfo.noFilm)
+          .getVisionement(req.params.UID, req.params.filmID)
           .then((result: pg.QueryResult) => {
             const visionement: Visionement[] = result.rows.map((cmd: any) => ({
               noFilm: cmd.nofilm,
@@ -147,6 +146,82 @@ export class DatabaseController {
           })
           .catch((e: Error) => {
             console.error(e.stack);
+          });
+      }
+    );
+
+    router.post(
+      "/user/insert",
+      // tslint:disable-next-line: max-func-body-length
+      (req: Request, res: Response, next: NextFunction) => {
+        const noRue: string = req.body.adresse.noRue;
+        const nomRue: string = req.body.adresse.nomRue;
+        const Ville: string = req.body.adresse.Ville;
+        const codePostal: string = req.body.adresse.codePostal;
+        const Province: string = req.body.adresse.Province;
+        const pays: string = req.body.adresse.pays;
+        const motDePasse: string = req.body.utilisateur.motDePasse;
+        const nom: string = req.body.utilisateur.nom;
+        const courrier: string = req.body.utilisateur.courrier;
+        const membre: string = req.body.utilisateur.membre;
+        this.databaseService
+          .createUtilisateur(
+            noRue,
+            nomRue,
+            Ville,
+            codePostal,
+            Province,
+            pays,
+            motDePasse,
+            nom,
+            courrier,
+            membre
+          )
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
+
+    router.post(
+      "/film/insert",
+      (req: Request, res: Response, next: NextFunction) => {
+        const titre: string = req.body.titre;
+        const genre: string = req.body.genre;
+        const dateProduction: string = req.body.dateProduction;
+        const duree: string = req.body.duree;
+        const html: string = req.body.html;
+        const prix: string = req.body.prix;
+        this.databaseService
+          .createFilm(titre, genre, dateProduction, duree, html, prix)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
+
+    router.post(
+      "/visionnement/modify",
+      (req: Request, res: Response, next: NextFunction) => {
+        const noFilm: string = req.body.visionement.noFilm;
+        const noCommande: string = req.body.visionement.noCommande;
+        const duree: string = req.body.duree;
+        this.databaseService
+          .modifyVisionnement(noFilm, noCommande, duree)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
           });
       }
     );

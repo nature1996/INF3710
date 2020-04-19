@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { switchMap } from "rxjs/operators";
-import { Visionement } from "../../../../common/tables/Visionement";
 import { Utilisateur } from "../../../../common/tables/Utilisateur";
+import { Visionement } from "../../../../common/tables/Visionement";
 import { CommunicationService } from "../communication.service";
 
 @Component({

@@ -1,6 +1,6 @@
 export interface Visionement {
   noFilm: number;
-  dateVisionement: Date;
+  dateVisionement: string;
   duree: number;
   noCommande: number;
 }

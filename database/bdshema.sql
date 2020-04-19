@@ -108,7 +108,7 @@ CREATE TABLE Netflix_Poly.Film
 	dateProduction date not null,
     duree          smallint not null,
 	prix           numeric(3,2),
-	lien           varchar(30),
+	lien           varchar(256),
     PRIMARY KEY (numero)
 );
 

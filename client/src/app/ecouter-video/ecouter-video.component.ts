@@ -68,19 +68,19 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
       )
       .subscribe((film: Film) => {
         this.film = film;
-        console.log("got film with id:", this.film.numero);
+        console.log(film);
         this.getVisionemnt();
       });
   }
 
   public canDeactivate(): Observable<boolean> | boolean {
-    /* if (this.visionement !== null) {
+    if (this.visionement !== null) {
       this.communicationService
-        .modifierVisionement(this.film, this.visionement, this.matVideo.time)
+        .modifierVisionement(this.visionement, Math.round(this.matVideo.time))
         .subscribe((observer) => {
           console.log(observer);
         });
-    } */
+    }
 
     return true;
   }

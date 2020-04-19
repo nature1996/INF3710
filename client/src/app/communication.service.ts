@@ -90,7 +90,9 @@ export class CommunicationService {
       .get<Visionement>(
         this.BASE_URL +
           "/visionnement/" +
-          { UID: this._activeUser.getValue().UID, filmID: filmID }
+          this._activeUser.getValue().UID +
+          "/" +
+          filmID
       )
       .pipe(catchError(this.handleError<Visionement>("oscars/:nofilm")));
   }
@@ -99,15 +101,18 @@ export class CommunicationService {
     utilisateur: Utilisateur,
     adresse: Adresse
   ): Observable<number> {
-    return new Observable<number>((observer) => {
-      observer.next(1);
-    });
+    return this.http
+      .post<number>(this.BASE_URL + "/user/insert", {
+        utilisateur: utilisateur,
+        adresse: adresse,
+      })
+      .pipe(catchError(this.handleError<number>("insertUtilisateur")));
   }
 
   public insertFilm(film: Film): Observable<number> {
-    return new Observable<number>((observer) => {
-      observer.next(1);
-    });
+    return this.http
+      .post<number>(this.BASE_URL + "/film/insert", film)
+      .pipe(catchError(this.handleError<number>("insertFilm")));
   }
 
   public insertCommandVisionement(
@@ -126,15 +131,15 @@ export class CommunicationService {
   }
 
   public modifierVisionement(
-    film: Film,
     visionement: Visionement,
     duree: number
   ): Observable<number> {
-    console.log(duree);
-
-    return new Observable<number>((observer) => {
-      observer.next(1);
-    });
+    return this.http
+      .post<number>(this.BASE_URL + "/visionnement/modify", {
+        visionement,
+        duree,
+      })
+      .pipe(catchError(this.handleError<number>("modifierVisionnement")));
   }
 
   public deleteFilm(filmID: number): Observable<number> {

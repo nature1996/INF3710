@@ -91,7 +91,10 @@ export class DatabaseService {
     motDePasse: string,
     nom: string,
     courrier: string,
-    membre: string
+    membre: string,
+    prixAbonement: string,
+    dateDebut: string,
+    dateEcheance: string
   ): Promise<pg.QueryResult> {
     const values: string[] = [
       noRue,
@@ -104,13 +107,13 @@ export class DatabaseService {
       nom,
       courrier,
       membre,
+      prixAbonement,
+      dateDebut,
+      dateEcheance,
     ];
     const queryText: string = `
-     INSERT INTO netflix_poly.Adresse (noRue, nomRue, Ville, codePostal, Province, pays)
-     VALUES($1, $2, $3, $4, $5, $6);
-
-     INSERT INTO netflix_poly.Utilisateur (motDePasseCrypte, nom, courrier, idAdresse, membre)
-     VALUES($7, $8, $9, scope_identity(), $10);`;
+       SELECT netflix_poly.insererUtilisateur($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);
+    `;
 
     return this.pool.query(queryText, values);
   }

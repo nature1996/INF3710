@@ -164,6 +164,9 @@ export class DatabaseController {
         const nom: string = req.body.utilisateur.nom;
         const courrier: string = req.body.utilisateur.courrier;
         const membre: string = req.body.utilisateur.membre;
+        const prixAbonement: string = req.body.membre.prixAbonement;
+        const dateDebut: string = req.body.membre.dateDebut;
+        const dateEcheance: string = req.body.membre.dateEcheance;
         this.databaseService
           .createUtilisateur(
             noRue,
@@ -175,7 +178,10 @@ export class DatabaseController {
             motDePasse,
             nom,
             courrier,
-            membre
+            membre,
+            prixAbonement,
+            dateDebut,
+            dateEcheance
           )
           .then((result: pg.QueryResult) => {
             res.json(result.rowCount);

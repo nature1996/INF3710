@@ -20,6 +20,7 @@ import { Utilisateur } from "../../../common/tables/Utilisateur";
 import { Visionement } from "../../../common/tables/Visionement";
 
 import { tempUser } from "./temp-const";
+import { Membre } from "../../../common/tables/Membre";
 
 // tslint:disable: no-any
 
@@ -100,12 +101,14 @@ export class CommunicationService {
 
   public insertUtilisateur(
     utilisateur: Utilisateur,
-    adresse: Adresse
+    adresse: Adresse,
+    membre: Membre
   ): Observable<number> {
     return this.http
       .post<number>(this.BASE_URL + "/user/insert", {
         utilisateur: utilisateur,
         adresse: adresse,
+        membre: membre,
       })
       .pipe(catchError(this.handleError<number>("insertUtilisateur")));
   }
@@ -145,11 +148,11 @@ export class CommunicationService {
   }
 
   // todo:
-  public deleteFilm(filmID: number): Observable<number> {
-    return new Observable<number>((observer) => {
-      observer.next(1);
-    });
-  }
+  /* public deleteFilm(filmID: number): Observable<any> {
+    return this.http
+      .delete<number>(this.BASE_URL + "/film/modify", filmID)
+      .pipe(catchError(this.handleError<number>("modifierFilm")));
+  } */
 
   private handleError<T>(
     request: string,

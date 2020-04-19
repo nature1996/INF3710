@@ -55,7 +55,7 @@ export class AddUserComponent implements OnInit {
 
   public confirmUser(): void {
     this.communicationService
-      .insertUtilisateur(this.formulaire1, this.formulaire2)
+      .insertUtilisateur(this.formulaire1, this.formulaire2, this.formulaire3)
       .subscribe((observer) => {
         console.log(observer);
       });

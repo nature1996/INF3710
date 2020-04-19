@@ -1,3 +1,4 @@
+// tslint:disable: max-line-length
 export const schema: string = `
 SET search_path = Netflix_Poly;
 
@@ -230,4 +231,50 @@ CREATE TABLE Netflix_Poly.Oscars
     FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
 );
 
+
+CREATE OR REPLACE FUNCTION insererUtilisateur(pNoRue varchar(20), pNomRue varchar(50), pville varchar(50), pCode varchar(6), pProvince varchar(36), pPays varchar(30), pMotDePasse varchar(256), pnom varchar(256), pcourrier varchar(256), pmembre boolean, pprixAbonement numeric(4,2), pdateDebut date, pdateEcheance date) 	
+	RETURNS integer AS
+	$user$
+	DECLARE
+      v_adresse integer DEFAULT 0;
+      v_user integer DEFAULT 0;
+	BEGIN
+        INSERT INTO Netflix_Poly.Adresse(noRue, nomRue, ville, codePostal, Province, pays)
+         VALUES (pNoRue, pNomRue, pVille,pCode,pProvince, pPays);
+        
+        SELECT MAX(a.idAdresse) into v_adresse FROM Netflix_Poly.Adresse a;
+        
+        
+        INSERT INTO Netflix_Poly.Utilisateur(motDePasseCrypte, nom, courrier, idAdresse, membre)
+        VALUES(pmotDePasse, pnom, pcourrier, v_adresse, pmembre);
+        
+        SELECT MAX(u.UID) into v_user FROM Netflix_Poly.Utilisateur u;
+
+        IF(pmembre) THEN
+            INSERT INTO Netflix_Poly.Membre(UID, prixAbonnement, dateDebut,dateEcheance) 
+            VALUES (v_user,  pprixAbonement, pdateDebut,pdateEcheance);
+        else
+            INSERT INTO Netflix_Poly.NonMembre(UID, filmPayPerView) VALUES (v_user, 0);
+        END IF;
+        
+        return 1;
+	END;  $user$ LANGUAGE plpgsql;
+    
+CREATE OR REPLACE FUNCTION deleteFilm(pnumero smallint) 	
+	RETURNS integer AS 
+	$user$
+	DECLARE 
+	  v_adresse integer DEFAULT 0;
+	BEGIN
+        DELETE FROM Netflix_Poly.Oscars
+        WHERE noFilm = pnumero;
+        
+        DELETE FROM Netflix_Poly.roleFilm
+        WHERE noFilm = pnumero;
+        
+        DELETE FROM Netflix_Poly.Film
+        WHERE numero = pnumero;
+                
+        return 1;
+	END;  $user$ LANGUAGE plpgsql;
 `;

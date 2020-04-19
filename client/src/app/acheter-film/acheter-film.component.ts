@@ -30,7 +30,7 @@ export class AcheterFilmComponent implements OnInit {
         switchMap((params: ParamMap) => {
           this.filmID = parseInt(params.get("filmID"), 10);
 
-          return this.communicationService.getVisionementInfo(this.filmID);
+          return this.communicationService.getVisionnementInfo(this.filmID);
         })
       )
       .subscribe((visionement: Visionement) => {

@@ -10,9 +10,9 @@ import { switchMap } from "rxjs/operators";
 
 import { MatVideoComponent } from "mat-video/lib/video.component";
 import { Observable } from "rxjs";
-import { Visionement } from "../../../../common/tables/Visionement";
 import { Film } from "../../../../common/tables/Film";
 import { Utilisateur } from "../../../../common/tables/Utilisateur";
+import { Visionement } from "../../../../common/tables/Visionement";
 import { CommunicationService } from "../communication.service";
 
 @Component({
@@ -34,6 +34,27 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
   public visionement: Visionement;
 
   public ngOnInit(): void {
+    // void
+  }
+
+  public getVisionemnt(): void {
+    this.communicationService
+      .getVisionnementInfo(this.film.numero)
+      .subscribe((visionement: Visionement) => {
+        console.log(visionement);
+        if (visionement === null) {
+          this.router.navigate(["acheter/", this.film.numero]);
+        }
+        this.visionement = visionement;
+        console.log(visionement);
+        {
+          this.matVideo.getVideoTag().setAttribute("src", this.film.html);
+          this.matVideo.time = this.visionement.duree;
+        }
+      });
+  }
+
+  public ngAfterViewInit(): void {
     this.communicationService.activeUser.subscribe((activeUser) => {
       this.activeUser = activeUser;
     });
@@ -48,37 +69,18 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
       .subscribe((film: Film) => {
         this.film = film;
         console.log("got film with id:", this.film.numero);
+        this.getVisionemnt();
       });
-
-    this.getVisionemnt();
-  }
-
-  public getVisionemnt(): void {
-    this.communicationService
-      .getVisionementInfo(this.film.numero)
-      .subscribe((visionement: Visionement) => {
-        if (visionement === null) {
-          this.router.navigate(["acheter/", this.film.numero]);
-        }
-        this.visionement = visionement;
-      });
-  }
-
-  public ngAfterViewInit(): void {
-    if (this.visionement !== null) {
-      this.matVideo.getVideoTag().setAttribute("src", this.film.html);
-      this.matVideo.time = this.visionement.duree;
-    }
   }
 
   public canDeactivate(): Observable<boolean> | boolean {
-    if (this.visionement !== null) {
+    /* if (this.visionement !== null) {
       this.communicationService
         .modifierVisionement(this.film, this.visionement, this.matVideo.time)
         .subscribe((observer) => {
           console.log(observer);
         });
-    }
+    } */
 
     return true;
   }

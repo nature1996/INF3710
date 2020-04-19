@@ -131,14 +131,15 @@ export class DatabaseController {
     );
 
     router.get(
-      "/visionement/:rinfo",
+      "/visionnement/:rinfo",
       (req: Request, res: Response, next: NextFunction) => {
+        console.log([req.params.rinfo.UID, req.params.rinfo.noFilm]);
         this.databaseService
           .getVisionement(req.params.rinfo.UID, req.params.rinfo.noFilm)
           .then((result: pg.QueryResult) => {
             const visionement: Visionement[] = result.rows.map((cmd: any) => ({
               noFilm: cmd.nofilm,
-              dateVisionement: cmd.datevisionement,
+              dateVisionement: cmd.datevisionnement,
               duree: cmd.duree,
               noCommande: cmd.nocommande,
             }));
@@ -150,23 +151,7 @@ export class DatabaseController {
       }
     );
 
-    //Hotel
-    router.get(
-      "/hotel/hotelNo",
-      (req: Request, res: Response, next: NextFunction) => {
-        this.databaseService
-          .getHotelNo()
-          .then((result: pg.QueryResult) => {
-            const hotelPKs: string[] = result.rows.map(
-              (row: any) => row.hotelno
-            );
-            res.json(hotelPKs);
-          })
-          .catch((e: Error) => {
-            console.error(e.stack);
-          });
-      }
-    );
+    // Hotel
 
     router.post(
       "/hotel/insert",
@@ -186,7 +171,7 @@ export class DatabaseController {
       }
     );
 
-    router.delete("/hotel/insert" /*TODO*/);
+    // router.delete("/hotel/insert" void);
 
     router.get(
       "/tables/:tableName",

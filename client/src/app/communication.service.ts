@@ -85,14 +85,12 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<Oscar[]>("oscars/:nofilm")));
   }
 
-  public getVisionementInfo(
-    filmID: number // UID from this._activeUser.getValue().UID
-  ): Observable<Visionement> {
+  public getVisionnementInfo(filmID: number): Observable<Visionement> {
     return this.http
       .get<Visionement>(
         this.BASE_URL +
-          "/visionement/" +
-          { UID: this._activeUser.getValue.UID, filmID: filmID }
+          "/visionnement/" +
+          { UID: this._activeUser.getValue().UID, filmID: filmID }
       )
       .pipe(catchError(this.handleError<Visionement>("oscars/:nofilm")));
   }

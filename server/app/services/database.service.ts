@@ -106,13 +106,11 @@ export class DatabaseService {
       membre,
     ];
     const queryText: string = `
-    BEGIN
      INSERT INTO netflix_poly.Adresse (noRue, nomRue, Ville, codePostal, Province, pays)
      VALUES($1, $2, $3, $4, $5, $6);
 
      INSERT INTO netflix_poly.Utilisateur (motDePasseCrypte, nom, courrier, idAdresse, membre)
-     VALUES($7, $8, $9, scope_identity(), $10);
-     END`;
+     VALUES($7, $8, $9, scope_identity(), $10);`;
 
     return this.pool.query(queryText, values);
   }

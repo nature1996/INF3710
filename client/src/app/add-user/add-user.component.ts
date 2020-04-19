@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 
 import { Adresse } from "../../../../common/tables/Adresse";
+import { Membre } from "../../../../common/tables/Membre";
 import { Utilisateur } from "../../../../common/tables/Utilisateur";
 import { CommunicationService } from "../communication.service";
 
@@ -23,6 +24,13 @@ const RESETFORM2: Adresse = {
   pays: "",
 };
 
+const RESETFORM3: Membre = {
+  UID: null,
+  prixAbonement: 0,
+  dateDebut: "",
+  dateEcheance: "",
+};
+
 @Component({
   selector: "app-add-user",
   templateUrl: "./add-user.component.html",
@@ -31,6 +39,7 @@ const RESETFORM2: Adresse = {
 export class AddUserComponent implements OnInit {
   public formulaire1: Utilisateur;
   public formulaire2: Adresse;
+  public formulaire3: Membre;
 
   public constructor(private communicationService: CommunicationService) {}
 
@@ -41,6 +50,7 @@ export class AddUserComponent implements OnInit {
   public resetForm(): void {
     this.formulaire1 = RESETFORM1;
     this.formulaire2 = RESETFORM2;
+    this.formulaire3 = RESETFORM3;
   }
 
   public confirmUser(): void {

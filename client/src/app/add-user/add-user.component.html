@@ -35,6 +35,35 @@
         <input type="checkbox" [(ngModel)]="formulaire1.membre" #membre />
         est membre
       </li>
+      <span *ngIf="formulaire1.membre">
+        Prix abonement
+        <li>
+          <input
+            type="number"
+            [(ngModel)]="formulaire3.prixAbonement"
+            class="form-control col-md-4"
+            #email
+          />
+        </li>
+        Date de début
+        <li>
+          <input
+            type="date"
+            [(ngModel)]="formulaire3.dateDebut"
+            class="form-control col-md-4"
+            #password
+          />
+        </li>
+        Date de fin
+        <li>
+          <input
+            type="date"
+            [(ngModel)]="formulaire3.dateEcheance"
+            class="form-control col-md-4"
+            #password
+          />
+        </li>
+      </span>
       <p></p>
       Adresse
       <li>

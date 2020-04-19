@@ -231,8 +231,26 @@ CREATE TABLE Netflix_Poly.Oscars
     FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
 );
 
+CREATE OR REPLACE FUNCTION insererVisionnement(pnoFilm smallint, pUID smallint)
+    RETURNS integer AS
+    $visio$
+    DECLARE
+      v_commande integer DEFAULT 0;
+    BEGIN
+        INSERT INTO Netflix_Poly.Commande(dateCommande, cout, UID)
+         VALUES(CURRENT_DATE, 0, pUID);
 
-CREATE OR REPLACE FUNCTION insererUtilisateur(pNoRue varchar(20), pNomRue varchar(50), pville varchar(50), pCode varchar(6), pProvince varchar(36), pPays varchar(30), pMotDePasse varchar(256), pnom varchar(256), pcourrier varchar(256), pmembre boolean, pprixAbonement numeric(4,2), pdateDebut date, pdateEcheance date) 	
+        SELECT MAX(c.numero) into v_commande FROM Netflix_Poly.Commande c;
+
+        INSERT INTO Netflix_Poly.Visionnement(noFilm, noCommande, dateVisionnement, duree)
+         VALUES(pnoFilm, v_commande, CURRENT_DATE, 0);
+
+        return 1;
+	END;  $visio$ LANGUAGE plpgsql;
+
+    
+
+CREATE OR REPLACE FUNCTION insererUtilisateur(pNoRue varchar(20), pNomRue varchar(50), pville varchar(50), pCode varchar(6), pProvince varchar(36), pPays varchar(30), pMotDePasse varchar(256), pnom varchar(256), pcourrier varchar(256), pmembre boolean, pprixAbonement numeric(4,2), pdateDebut date, pdateEcheance date)
 	RETURNS integer AS
 	$user$
 	DECLARE
@@ -241,40 +259,49 @@ CREATE OR REPLACE FUNCTION insererUtilisateur(pNoRue varchar(20), pNomRue varcha
 	BEGIN
         INSERT INTO Netflix_Poly.Adresse(noRue, nomRue, ville, codePostal, Province, pays)
          VALUES (pNoRue, pNomRue, pVille,pCode,pProvince, pPays);
-        
+
         SELECT MAX(a.idAdresse) into v_adresse FROM Netflix_Poly.Adresse a;
-        
-        
+
+
         INSERT INTO Netflix_Poly.Utilisateur(motDePasseCrypte, nom, courrier, idAdresse, membre)
         VALUES(pmotDePasse, pnom, pcourrier, v_adresse, pmembre);
-        
+
         SELECT MAX(u.UID) into v_user FROM Netflix_Poly.Utilisateur u;
 
         IF(pmembre) THEN
-            INSERT INTO Netflix_Poly.Membre(UID, prixAbonnement, dateDebut,dateEcheance) 
+            INSERT INTO Netflix_Poly.Membre(UID, prixAbonnement, dateDebut,dateEcheance)
             VALUES (v_user,  pprixAbonement, pdateDebut,pdateEcheance);
         else
             INSERT INTO Netflix_Poly.NonMembre(UID, filmPayPerView) VALUES (v_user, 0);
         END IF;
-        
+
         return 1;
 	END;  $user$ LANGUAGE plpgsql;
-    
-CREATE OR REPLACE FUNCTION deleteFilm(pnumero smallint) 	
-	RETURNS integer AS 
+
+CREATE OR REPLACE FUNCTION deleteFilm(pnumero smallint)
+	RETURNS integer AS
 	$user$
-	DECLARE 
+	DECLARE
 	  v_adresse integer DEFAULT 0;
-	BEGIN
+    BEGIN
+        DELETE FROM Netflix_Poly.Visionnement
+        WHERE noFilm = pnumero;
+
+        DELETE FROM Netflix_Poly.CommandeFilmDVD
+        WHERE noFilm = pnumero;
+
+        DELETE FROM Netflix_Poly.DVD
+        WHERE noFilm = pnumero;
+
         DELETE FROM Netflix_Poly.Oscars
         WHERE noFilm = pnumero;
-        
+
         DELETE FROM Netflix_Poly.roleFilm
         WHERE noFilm = pnumero;
-        
+
         DELETE FROM Netflix_Poly.Film
         WHERE numero = pnumero;
-                
+
         return 1;
 	END;  $user$ LANGUAGE plpgsql;
 `;

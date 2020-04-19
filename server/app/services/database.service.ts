@@ -1,3 +1,4 @@
+import CryptoJS = require("crypto-js");
 import { injectable } from "inversify";
 import * as pg from "pg";
 import "reflect-metadata";
@@ -80,6 +81,21 @@ export class DatabaseService {
     );
   }
 
+  public async login(
+    courrier: string,
+    motDePasse: string
+  ): Promise<pg.QueryResult> {
+    return this.pool.query(
+      `SELECT *
+      FROM netflix_poly.Utilisateur
+      WHERE courrier=\'${courrier}\'
+      AND motDePasseCrypte=\'${CryptoJS.SHA256(motDePasse).toString(
+        CryptoJS.enc.Hex
+      )}\'
+      ;`
+    );
+  }
+
   public async createUtilisateur(
     noRue: string,
     nomRue: string,
@@ -103,7 +119,7 @@ export class DatabaseService {
       codePostal,
       Province,
       pays,
-      motDePasse,
+      CryptoJS.SHA256(motDePasse).toString(CryptoJS.enc.Hex),
       nom,
       courrier,
       membre,
@@ -129,6 +145,16 @@ export class DatabaseService {
     const values: string[] = [titre, genre, dateProduction, duree, prix, html];
     const queryText: string = `INSERT INTO netflix_poly.film (titre, genre, dateProduction, duree, prix, lien)
      VALUES($1, $2, $3, $4, $5, $6);`;
+
+    return this.pool.query(queryText, values);
+  }
+
+  public async createVisionnement(
+    filmNo: string,
+    UID: string
+  ): Promise<pg.QueryResult> {
+    const values: string[] = [];
+    const queryText: string = `SELECT netflix_poly.insererVisionnement(\'${filmNo}\', \'${UID}\');`;
 
     return this.pool.query(queryText, values);
   }
@@ -171,50 +197,7 @@ export class DatabaseService {
     return this.pool.query(queryText, values);
   }
 
-  // HOTEL
-  public async createHotel(
-    hotelNo: string,
-    hotelName: string,
-    city: string
-  ): Promise<pg.QueryResult> {
-    const values: string[] = [hotelNo, hotelName, city];
-    const queryText: string = `INSERT INTO HOTELDB.Hotel VALUES($1, $2, $3);`;
-
-    return this.pool.query(queryText, values);
-  }
-
-  // GUEST
-  public async createGuest(
-    guestNo: string,
-    nas: string,
-    guestName: string,
-    gender: string,
-    guestCity: string
-  ): Promise<pg.QueryResult> {
-    // this.pool.connect();
-    const values: string[] = [guestNo, nas, guestName, gender, guestCity];
-    const queryText: string = `INSERT INTO HOTELDB.ROOM VALUES($1,$2,$3,$4,$5);`;
-
-    return this.pool.query(queryText, values);
-  }
-
-  // BOOKING
-  public async createBooking(
-    hotelNo: string,
-    guestNo: string,
-    dateFrom: Date,
-    dateTo: Date,
-    roomNo: string
-  ): Promise<pg.QueryResult> {
-    const values: string[] = [
-      hotelNo,
-      guestNo,
-      dateFrom.toString(),
-      dateTo.toString(),
-      roomNo,
-    ];
-    const queryText: string = `INSERT INTO HOTELDB.ROOM VALUES($1,$2,$3,$4,$5);`;
-
-    return this.pool.query(queryText, values);
+  public async deleteFilm(filmID: number): Promise<pg.QueryResult> {
+    return this.pool.query(`SELECT netflix_poly.deleteFilm(\'${filmID}\');`);
   }
 }

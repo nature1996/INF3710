@@ -8,7 +8,10 @@ import Types from "../types";
 import { RoleActeur } from "../../../common/request/RoleActeur";
 import { Film } from "../../../common/tables/Film";
 import { Oscar } from "../../../common/tables/Oscar";
+import { Utilisateur } from "../../../common/tables/Utilisateur";
 import { Visionement } from "../../../common/tables/Visionement";
+
+// tslint:disable: max-file-line-count
 
 @injectable()
 export class DatabaseController {
@@ -150,6 +153,27 @@ export class DatabaseController {
       }
     );
 
+    router.post("/login", (req: Request, res: Response, next: NextFunction) => {
+      const couriel: string = req.body.couriel;
+      const motDePasse: string = req.body.motDePasse;
+      this.databaseService
+        .login(couriel, motDePasse)
+        .then((result: pg.QueryResult) => {
+          const utilisateurs: Utilisateur[] = result.rows.map((user: any) => ({
+            UID: user.uid,
+            motDePasse: user.motdepassecrypte,
+            nom: user.nom,
+            courrier: user.courrier,
+            idAdresse: user.idadresse,
+            membre: user.membre,
+          }));
+          res.json(utilisateurs[0]);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+    });
+
     router.post(
       "/user/insert",
       // tslint:disable-next-line: max-func-body-length
@@ -237,6 +261,23 @@ export class DatabaseController {
     );
 
     router.post(
+      "/visionnement/insert",
+      (req: Request, res: Response, next: NextFunction) => {
+        const filmID: string = req.body.filmID;
+        const UID: string = req.body.UID;
+        this.databaseService
+          .createVisionnement(filmID, UID)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
+
+    router.post(
       "/visionnement/modify",
       (req: Request, res: Response, next: NextFunction) => {
         const noFilm: string = req.body.visionement.noFilm;
@@ -254,35 +295,14 @@ export class DatabaseController {
       }
     );
 
-    // Hotel
-
-    router.post(
-      "/hotel/insert",
+    router.delete(
+      "/film/:numero",
       (req: Request, res: Response, next: NextFunction) => {
-        const hotelNo: string = req.body.hotelNo;
-        const hotelName: string = req.body.hotelName;
-        const city: string = req.body.city;
+        console.log(req.params.numero);
         this.databaseService
-          .createHotel(hotelNo, hotelName, city)
+          .deleteFilm(req.params.numero)
           .then((result: pg.QueryResult) => {
             res.json(result.rowCount);
-          })
-          .catch((e: Error) => {
-            console.error(e.stack);
-            res.json(-1);
-          });
-      }
-    );
-
-    // router.delete("/hotel/insert" void);
-
-    router.get(
-      "/tables/:tableName",
-      (req: Request, res: Response, next: NextFunction) => {
-        this.databaseService
-          .getAllFromTable(req.params.tableName)
-          .then((result: pg.QueryResult) => {
-            res.json(result.rows);
           })
           .catch((e: Error) => {
             console.error(e.stack);

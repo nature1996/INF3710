@@ -37,6 +37,7 @@ INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('
 INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('Marc-Olivier Dupenor', 1, 'm-odupenor@gmail.com', false);
 INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('Noslo Italis', 2, 'nosloitalis@gmail.com', false);
 INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('Priscille O. Italis', 2, 'prisci@gmail.com', false);
+INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre, motDePasseCrypte) VALUES ('Nature 1996', 2, 'nature1996@polymtl.ca', true, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
 
 
 --Insertion donnees abonnement

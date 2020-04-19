@@ -105,11 +105,14 @@ export class DatabaseService {
       courrier,
       membre,
     ];
-    const queryText: string = `INSERT INTO netflix_poly.Adresse (noRue, nomRue, Ville, codePostal, Province, pays)
+    const queryText: string = `
+    BEGIN
+     INSERT INTO netflix_poly.Adresse (noRue, nomRue, Ville, codePostal, Province, pays)
      VALUES($1, $2, $3, $4, $5, $6);
 
      INSERT INTO netflix_poly.Utilisateur (motDePasseCrypte, nom, courrier, idAdresse, membre)
-     VALUES($7, $8, $9, scope_identity(), $10);`;
+     VALUES($7, $8, $9, scope_identity(), $10);
+     END`;
 
     return this.pool.query(queryText, values);
   }
@@ -125,6 +128,31 @@ export class DatabaseService {
     const values: string[] = [titre, genre, dateProduction, duree, prix, html];
     const queryText: string = `INSERT INTO netflix_poly.film (titre, genre, dateProduction, duree, prix, lien)
      VALUES($1, $2, $3, $4, $5, $6);`;
+
+    return this.pool.query(queryText, values);
+  }
+
+  public async modifyFilm(
+    numero: string,
+    titre: string,
+    genre: string,
+    dateProduction: string,
+    duree: string,
+    html: string,
+    prix: string
+  ): Promise<pg.QueryResult> {
+    const values: string[] = [
+      numero,
+      titre,
+      genre,
+      dateProduction,
+      duree,
+      prix,
+      html,
+    ];
+    const queryText: string = `UPDATE netflix_poly.film
+    SET titre = $2, genre = $3, dateProduction = $4, duree = $5, prix = $6, lien = $7
+    WHERE numero = $1;`;
 
     return this.pool.query(queryText, values);
   }

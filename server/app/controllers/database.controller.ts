@@ -209,6 +209,28 @@ export class DatabaseController {
     );
 
     router.post(
+      "/film/modify",
+      (req: Request, res: Response, next: NextFunction) => {
+        const numero: string = req.body.numero;
+        const titre: string = req.body.titre;
+        const genre: string = req.body.genre;
+        const dateProduction: string = req.body.dateProduction;
+        const duree: string = req.body.duree;
+        const html: string = req.body.html;
+        const prix: string = req.body.prix;
+        this.databaseService
+          .modifyFilm(numero, titre, genre, dateProduction, duree, html, prix)
+          .then((result: pg.QueryResult) => {
+            res.json(result.rowCount);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+            res.json(-1);
+          });
+      }
+    );
+
+    router.post(
       "/visionnement/modify",
       (req: Request, res: Response, next: NextFunction) => {
         const noFilm: string = req.body.visionement.noFilm;

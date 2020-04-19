@@ -44,6 +44,7 @@ export class CommunicationService {
     this._listners.next(filterBy);
   }
 
+  // todo:
   public logIn(couriel: string, motDePasse: string): void {
     new Observable<Utilisateur>((observer) => {
       observer.next(
@@ -115,6 +116,7 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<number>("insertFilm")));
   }
 
+  // todo:
   public insertCommandVisionement(
     utilisateur: Utilisateur,
     filmID: number
@@ -125,9 +127,9 @@ export class CommunicationService {
   }
 
   public modifierFilm(film: Film): Observable<number> {
-    return new Observable<number>((observer) => {
-      observer.next(1);
-    });
+    return this.http
+      .post<number>(this.BASE_URL + "/film/modify", film)
+      .pipe(catchError(this.handleError<number>("modifierFilm")));
   }
 
   public modifierVisionement(
@@ -142,46 +144,12 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<number>("modifierVisionnement")));
   }
 
+  // todo:
   public deleteFilm(filmID: number): Observable<number> {
     return new Observable<number>((observer) => {
       observer.next(1);
     });
   }
-
-  /* public getHotels(): Observable<any[]> {
-
-        return this.http.get<Hotel[]>(this.BASE_URL + "/hotel").pipe(
-            catchError(this.handleError<Hotel[]>("getHotels")),
-        );
-    }
-
-    public getHotelPKs(): Observable<string[]> {
-
-        return this.http.get<string[]>(this.BASE_URL + "/hotel/hotelNo").pipe(
-            catchError(this.handleError<string[]>("getHotelPKs")),
-        );
-    }
-
-    public insertHotel(hotel: any): Observable<number> {
-        return this.http.post<number>(this.BASE_URL + "/hotel/insert", hotel).pipe(
-            catchError(this.handleError<number>("inserHotel")),
-        );
-    }
-
-    public insertRoom(room: Room): Observable<number> {
-        return this.http.post<number>(this.BASE_URL + "/rooms/insert", room).pipe(
-            catchError(this.handleError<number>("inserHotel")),
-        );
-    }
-
-    public deleteHotel(): void {
-      // todo
-    }
-
-    public setUpDatabase(): Observable<any> {
-        return concat(this.http.post<any>(this.BASE_URL + "/createSchema", []),
-                      this.http.post<any>(this.BASE_URL + "/populateDb", []));
-    } */
 
   private handleError<T>(
     request: string,

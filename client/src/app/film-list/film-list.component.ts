@@ -25,11 +25,10 @@ export class FilmListComponent implements OnInit {
     });
   }
 
-  public getAnnee(film: Film): string {
-    let annee: string = "";
-    annee += film.dateProduction;
+  public getDate(film: Film): string {
+    const date = new Date(film.dateProduction);
 
-    return annee;
+    return date.toLocaleString().split(",", 1)[0];
   }
 
   public getPrix(film: Film): string {

@@ -10,7 +10,7 @@ export class DatabaseService {
   public connectionConfig: pg.ConnectionConfig = {
     user: "postgres",
     database: "postgres",
-    password: "admin",
+    password: "123456",
     port: 5432,
     host: "127.0.0.1",
     keepAlive: true,
@@ -19,22 +19,43 @@ export class DatabaseService {
   private pool: pg.Pool = new pg.Pool(this.connectionConfig);
 
   public constructor() {
-    this.pool.connect();
+    this.pool
+      .connect()
+      .then(async () => this.createSchema())
+      .then(async () => this.populateDb())
+      .catch();
   }
   /*
 
         METHODES DE DEBUG
     */
-  public createSchema(): Promise<pg.QueryResult> {
+  public async createSchema(): Promise<pg.QueryResult> {
     return this.pool.query(schema);
   }
 
-  public populateDb(): Promise<pg.QueryResult> {
+  public async populateDb(): Promise<pg.QueryResult> {
     return this.pool.query(data);
   }
 
   public getAllFromTable(tableName: string): Promise<pg.QueryResult> {
-    return this.pool.query(`SELECT * FROM HOTELDB.${tableName};`);
+    return this.pool.query(`SELECT * FROM netflix_poly.${tableName};`);
+  }
+
+  //Film
+  public async getFilms(): Promise<pg.QueryResult> {
+    return this.pool.query(`SELECT * FROM netflix_poly.film;`);
+  }
+
+  public async getFilm(numero: number): Promise<pg.QueryResult> {
+    return this.pool.query(
+      `SELECT * FROM netflix_poly.film WHERE numero=\'${numero}\';`
+    );
+  }
+
+  public async getOscars(noFilm: number): Promise<pg.QueryResult> {
+    return this.pool.query(
+      `SELECT * FROM netflix_poly.Oscars WHERE noFilm=\'${noFilm}\';`
+    );
   }
 
   // HOTEL

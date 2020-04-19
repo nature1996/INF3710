@@ -37,12 +37,12 @@ export class FilmDetailComponent implements OnInit {
       .subscribe((film: Film) => {
         this.film = film;
         console.log("got film with id:", this.film.numero);
+        this.getActor();
+        this.getOscar();
       });
     this.communicationService.activeUser.subscribe((activeUser) => {
       this.activeUser = activeUser;
     });
-    this.getActor();
-    this.getOscar();
   }
 
   public getActor(): void {

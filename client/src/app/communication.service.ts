@@ -80,13 +80,15 @@ export class CommunicationService {
   }
 
   public getFilms(): Observable<any[]> {
-    return this._films;
+    return this.http
+      .get<Film[]>(this.BASE_URL + "/film")
+      .pipe(catchError(this.handleError<Film[]>("getFilms")));
   }
 
   public getFilmDetail(id: number): Observable<any> {
-    return new Observable<Film>((observer) => {
-      observer.next(films[id]);
-    });
+    return this.http
+      .get<Film>(this.BASE_URL + "/film/" + id)
+      .pipe(catchError(this.handleError<Film>("getFilm/:number")));
   }
 
   public getRoleFilm(filmID: number): Observable<any> {

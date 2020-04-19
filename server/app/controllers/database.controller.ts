@@ -5,6 +5,8 @@ import * as pg from "pg";
 import { DatabaseService } from "../services/database.service";
 import Types from "../types";
 
+import { Film } from "../../../common/tables/Film";
+
 @injectable()
 export class DatabaseController {
   public constructor(
@@ -35,6 +37,53 @@ export class DatabaseController {
           .populateDb()
           .then((result: pg.QueryResult) => {
             res.json(result);
+          })
+          .catch((e: Error) => {
+            console.error(e.stack);
+          });
+      }
+    );
+
+    router.get("/film", (req: Request, res: Response, next: NextFunction) => {
+      // Send the request to the service and send the response
+      this.databaseService
+        .getFilms()
+        .then((result: pg.QueryResult) => {
+          const films: Film[] = result.rows.map((film: any) => ({
+            numero: film.numero,
+            titre: film.titre,
+            genre: film.genre,
+            dateProduction: film.dateProduction,
+            duree: film.duree,
+            html: film.html,
+            prix: film.prix,
+          }));
+          // todo: remove
+          console.log(result.rows[1]);
+          res.json(films);
+        })
+        .catch((e: Error) => {
+          console.error(e.stack);
+        });
+    });
+
+    router.get(
+      "/film/:numero",
+      (req: Request, res: Response, next: NextFunction) => {
+        this.databaseService
+          .getFilm(req.params.numero)
+          .then((result: pg.QueryResult) => {
+            const films: Film[] = result.rows.map((film: any) => ({
+              numero: film.numero,
+              titre: film.titre,
+              genre: film.genre,
+              dateProduction: film.dateProduction,
+              duree: film.duree,
+              html: film.html,
+              prix: film.prix,
+            }));
+            console.log(films);
+            res.json(films[0]);
           })
           .catch((e: Error) => {
             console.error(e.stack);

@@ -21,7 +21,7 @@ export class FilmListComponent implements OnInit {
   public getFilms(): void {
     this.communicationService.getFilms().subscribe((films: Film[]) => {
       this.films = films;
-      console.log("Film loaded");
+      console.log("Film loaded, first: ", this.films[0]);
     });
   }
 

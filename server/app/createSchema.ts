@@ -1,48 +1,233 @@
 export const schema: string = `
-SET search_path = hotelDB;
+SET search_path = Netflix_Poly;
 
-DROP SCHEMA IF EXISTS HOTELDB CASCADE;
-CREATE SCHEMA HOTELDB;
+DROP SCHEMA IF EXISTS Netflix_Poly CASCADE;
 
-CREATE TABLE IF NOT EXISTS  HOTELDB.Hotel (
-		hotelNo		VARCHAR(10)		NOT NULL,
-		hotelName 	VARCHAR(20)		NOT NULL,
-		city		VARCHAR(50)		NOT NULL,
-		PRIMARY KEY (hotelNo));
-
-CREATE TABLE IF NOT EXISTS HOTELDB.Room(
-roomNo VARCHAR(10) NOT NULL,
-hotelNo VARCHAR(10)	NOT NULL,
-typeroom VARCHAR(10)	NOT NULL,
-price NUMERIC(6,3) NOT NULL,
-PRIMARY KEY (roomNo, hotelNo),
-FOREIGN KEY(hotelNo) REFERENCES HOTELDB.Hotel(hotelNo) ON DELETE CASCADE ON UPDATE CASCADE);
+CREATE SCHEMA Netflix_Poly;
 
 
-CREATE DOMAIN HOTELDB.sexType AS CHAR
-	CHECK (VALUE IN ('M', 'F'));
 
-CREATE TABLE IF NOT EXISTS HOTELDB.Guest(
-guestNo		VARCHAR(10)		NOT NULL,
-nas		VARCHAR(10)		UNIQUE NOT NULL,
-guestName 	VARCHAR(20)		NOT NULL,
-gender		sexType			DEFAULT 'M',
-guestCity	VARCHAR(50)		NOT NULL,
-PRIMARY KEY (guestNo));
+CREATE TABLE Netflix_Poly.Adresse
+(   idAdresse          serial,
+    noRue              varchar(20),
+    nomRue             varchar(50),
+    ville              varchar(50),
+    codePostal         varchar(6),
+	Province           varchar(30),
+	pays               varchar(30),
+    PRIMARY KEY (idAdresse)
+);
+ALTER SEQUENCE netflix_poly.adresse_idadresse_seq RESTART WITH 1; --parfois necessaire pour les tests
 
-CREATE TABLE IF NOT EXISTS HOTELDB.Booking(
-		hotelNo		VARCHAR(10)		NOT NULL,
-		guestNo	  	VARCHAR(10)		NOT NULL,
-		dateFrom 	DATE			NOT NULL,
-		dateTo		DATE			NULL,
-		roomNo		VARCHAR(10)		NOT NULL,
-		PRIMARY KEY (hotelNo, guestNo, roomNO, dateFrom),
-		FOREIGN KEY (guestNo) REFERENCES HOTELDB.Guest(guestNo)
-		ON DELETE SET NULL ON UPDATE CASCADE,
-		FOREIGN KEY (hotelNo, roomNo) REFERENCES HOTELDB.Room (hotelNo, roomNo)
-		ON DELETE CASCADE ON UPDATE CASCADE,
-		CONSTRAINT date CHECK (dateTo >= dateFrom),
-		CONSTRAINT dateFrom CHECK (dateFrom >= current_date));
 
-ALTER TABLE HOTELDB.Guest ALTER gender DROP DEFAULT;
+--Utilisateur(UID, motDePasseCrypte, nom, idAdresse, Membre);
+--PK: UID
+--FK: idAdresse References Adresse(idAdresse)
+--# Membre -> bool
+
+CREATE TABLE Netflix_Poly.Utilisateur
+(
+    UID               serial,
+    motDePasseCrypte  varchar(256),
+    nom               varchar(256) not null,
+    courrier          varchar(256) not null,
+	idAdresse         smallint not null,
+    membre      	  boolean,
+    PRIMARY KEY (UID),
+	FOREIGN KEY (idAdresse) REFERENCES Netflix_Poly.Adresse(idAdresse)
+);
+ALTER SEQUENCE netflix_poly.utilisateur_uid_seq RESTART WITH 1; --parfois necessaire pour les tests
+
+--Membre(UID, prixAbonnement, dateDebut, dateEcheance);
+--PK: UID
+--FK: UID References Utilisateur(UID)
+
+CREATE TABLE Netflix_Poly.Membre
+(
+    UID               smallint,
+	prixAbonnement    numeric(4,2) not null,
+    dateDebut         date not null,
+	dateEcheance      date not null,
+    PRIMARY KEY (UID),
+	FOREIGN KEY (UID) REFERENCES Netflix_Poly.Utilisateur(UID)
+);
+
+
+
+CREATE TABLE Netflix_Poly.NonMembre
+(
+    UID                   smallint,
+    filmPayPerView        smallint default 0,
+    PRIMARY KEY (UID),
+	FOREIGN KEY (UID) REFERENCES Netflix_Poly.Utilisateur(UID)
+);
+
+
+
+--CarteDeCredit(UID, numero, titulaire, dateExpiration, CCV)???
+--PK: (UID, numero)
+--FK: UID References Utilisateur(UID)
+
+CREATE TABLE Netflix_Poly.CarteDeCredit
+(
+    UID                 smallint,
+	numero              varchar(20),
+    reseauDecarte       varchar(20) not null,
+    titulaire           varchar(256) not null,
+    dateExpiration      date not null,
+	ccv                 smallint not null,
+    PRIMARY KEY (UID, numero),
+    FOREIGN KEY (UID) REFERENCES Netflix_Poly.Utilisateur(UID)
+);
+--ALTER SEQUENCE avion_idAvion_seq RESTART WITH 1; parfois necessaire pour les test
+
+
+--Personne(personneID, nom, dateDeNaissance, sexe, nationalite)
+--PK: personneID
+
+CREATE TABLE Netflix_Poly.Personne
+(
+    personneID     serial,
+    nom            varchar(250) not null,
+    dateNaissance  date,                     -- Modification, meilleure modelisation qu'avec l'age
+    sexe		   CHAR
+				   CONSTRAINT personne_sexeCHK   CHECK (sexe IN ('M','F')),
+    nationalite    varchar(30),
+    PRIMARY KEY (personneID)
+);
+ALTER SEQUENCE personne_personneID_seq RESTART WITH 1;  --parfois necessaire pour les test
+
+
+--Film(numero, titre, genre, dateProduction, duree, prix)
+--PK: numero
+
+CREATE TABLE Netflix_Poly.Film
+(
+    numero         serial,
+    titre          varchar(250) not null,
+    genre          varchar(50) not null,
+	dateProduction date not null,
+    duree          smallint not null,
+	prix           numeric(3,2),
+	lien           varchar(30),
+    PRIMARY KEY (numero)
+);
+
+ALTER SEQUENCE netflix_poly.film_numero_seq RESTART WITH 1; --parfois necessaire pour les test
+
+
+--roleFilm(filmID, roleName, personneID, salaire)
+--PK:(filmID, roleName, personneID)
+--FK: filmID References Film(filmID)
+--personneID References Personne(personneID)
+
+CREATE TABLE Netflix_Poly.roleFilm   --Association entre personne et film avec role
+(
+    personneID    smallint,
+    noFilm        smallint,
+    roleName      varchar(256),
+    salaire       numeric,
+    PRIMARY KEY (personneID, noFilm, roleName),
+    FOREIGN KEY (personneID) REFERENCES Netflix_Poly.Personne(personneID),
+    FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
+);
+
+--DVD(filmID, dvdID, disponible)
+--PK: (filmID, dvdID)
+--FK: filmID References Film(filmID)
+
+CREATE TABLE Netflix_Poly.DVD
+(
+    noFilm            smallint,
+    numero            smallint not null,
+	prix              numeric(4,2) not null,
+	disponibilite     boolean,
+	UNIQUE(noFilm, numero),
+    PRIMARY KEY (noFilm, numero),
+	FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
+
+);
+
+
+--Commande(numero, date, typeCommande, cout, statut, membre)
+--Commande(commandeID, UID, filmID, type)
+--PK: commandeID
+--FK: UID References Utilisateur(UID)
+--filmID References Film(filmID)
+
+CREATE TABLE Netflix_Poly.Commande   --Relation commande
+(
+    numero         serial,
+    dateCommande   date,
+	cout           numeric(4,2),  --derive
+	UID            smallint,
+    PRIMARY KEY (numero),
+    FOREIGN KEY (UID) REFERENCES Netflix_Poly.Utilisateur(UID)
+ );
+--netflix_poly.commande_numero_seq
+ALTER SEQUENCE netflix_poly.commande_numero_seq RESTART WITH 1; --parfois necessaire pour les test
+
+
+--Table des visionnements
+--Visionnement(commandeID, FilmID, date, duree)
+--
+
+CREATE TABLE Netflix_Poly.Visionnement   --Relation commande
+(
+    noFilm             smallint,
+    dateVisionnement   date,
+	duree              smallint,
+	noCommande         smallint,
+    PRIMARY KEY (noFilm, noCommande),
+    FOREIGN KEY (noCommande) REFERENCES Netflix_Poly.Commande(numero),
+    FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
+);
+--ALTER SEQUENCE netflix_poly.visionnement_numero_seq RESTART WITH 1; --parfois necessaire pour les tests
+
+
+
+--Prends en compte seulement les DVD
+--PK: commandeID
+--FK: commandeID References Commande(commandeID)
+
+CREATE TABLE Netflix_Poly.CommandeFilmDVD   --Association entre commande et film
+(
+    noFilm	 		  smallint,
+    noCommande        smallint,
+	noDVD              smallint,
+	PRIMARY KEY (noFilm, noCommande),
+    FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero),
+    FOREIGN KEY (noCommande) REFERENCES Netflix_Poly.Commande(numero)
+);
+
+
+--CeremonieOscars(date, maitre, lieux)
+--PK: date
+
+--Oscar(annee, dateCeremonie, lieuCeremonie, maitreCeremonie)
+CREATE TABLE Netflix_Poly.CeremonieOscars
+(
+    dateOscar             date,
+    lieu             varchar(256) not null,
+    maitre           varchar(256) not null,
+    PRIMARY KEY (dateOscar)
+
+);
+
+--Oscars(date, categorie, filmID, victoire)
+--PK: (date, categorie, filmID)
+--FK: filmID References Film(filmID)
+--   date References CeremonieOscars(date)
+
+CREATE TABLE Netflix_Poly.Oscars
+(
+    dateOscar     date,
+    noFilm        smallint,
+    categorie     varchar(256) not null,
+	issue         varchar(6),
+    PRIMARY KEY (dateOscar, noFilm, categorie),
+    FOREIGN KEY (dateOscar) REFERENCES Netflix_Poly.CeremonieOscars(dateOscar),
+    FOREIGN KEY (noFilm) REFERENCES Netflix_Poly.Film(numero)
+);
+
 `;

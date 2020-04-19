@@ -1,9 +1,9 @@
 import { Location } from "@angular/common";
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
 import { Utilisateur } from "../../../common/tables/Utilisateur";
 import { CommunicationService } from "./communication.service";
-import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-root",
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public route: string;
   public activeUser: Utilisateur;
 
-  private subs: Subscription[];
+  private subs: Subscription[] = [];
 
   public constructor(
     private communicationService: CommunicationService,
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    for (let sub of this.subs) {
+    for (const sub of this.subs) {
       sub.unsubscribe();
     }
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, ParamMap, Router } from "@angular/router";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
 import { RoleActeur } from "../../../../common/request/RoleActeur";
 import { Film } from "../../../../common/tables/Film";
@@ -15,7 +15,6 @@ import { CommunicationService } from "../communication.service";
 export class FilmDetailComponent implements OnInit {
   public constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private communicationService: CommunicationService
   ) {
     // void
@@ -36,7 +35,6 @@ export class FilmDetailComponent implements OnInit {
       )
       .subscribe((film: Film) => {
         this.film = film;
-        console.log("got film with id:", this.film.numero);
         this.getActor();
         this.getOscar();
       });

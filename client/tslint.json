@@ -47,7 +47,7 @@
     ],
     "no-arg": true,
     "no-bitwise": true,
-    "no-console": [false, "debug", "info", "time", "timeEnd", "trace", "log"],
+    "no-console": [true, "debug", "info", "time", "timeEnd", "trace", "log"],
     "no-construct": true,
     "no-conditional-assignment": true,
     "no-debugger": true,

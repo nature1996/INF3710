@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   Component,
   OnInit,
@@ -41,12 +40,10 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
     this.communicationService
       .getVisionnementInfo(this.film.numero)
       .subscribe((visionement: Visionement) => {
-        console.log(visionement);
         if (visionement === null) {
           this.router.navigate(["acheter/", this.film.numero]);
         }
         this.visionement = visionement;
-        console.log(visionement);
         {
           this.matVideo.getVideoTag().setAttribute("src", this.film.html);
           this.matVideo.time = this.visionement.duree;
@@ -68,7 +65,6 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
       )
       .subscribe((film: Film) => {
         this.film = film;
-        console.log(film);
         this.getVisionemnt();
       });
   }
@@ -78,6 +74,7 @@ export class EcouterVideoComponent implements OnInit, AfterViewInit {
       this.communicationService
         .modifierVisionement(this.visionement, Math.round(this.matVideo.time))
         .subscribe((observer) => {
+          // tslint:disable-next-line: no-console
           console.log(observer);
         });
     }

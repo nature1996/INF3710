@@ -1,4 +1,3 @@
-
 SET search_path = Netflix_Poly;
 
 
@@ -10,7 +9,7 @@ DELETE FROM Netflix_Poly.Personne;
 DELETE FROM Netflix_Poly.CommandeFilmDVD;
 DELETE FROM Netflix_Poly.DVD;
 DELETE FROM Netflix_Poly.Visionnement;
-DELETE FROM Netflix_Poly.Film; --pour nettoyage prealable 
+DELETE FROM Netflix_Poly.Film; --pour nettoyage prealable
 DELETE FROM Netflix_Poly.Commande;
 DELETE FROM Netflix_Poly.CarteDeCredit;
 DELETE FROM Netflix_Poly.Membre;
@@ -20,7 +19,7 @@ DELETE FROM Netflix_Poly.Adresse;
 
 -- Insertion d'adresses
 
---ALTER SEQUENCE netflix_poly.adresse_idadresse_seq RESTART WITH 1; --parfois necessaire pour les tests 
+--ALTER SEQUENCE netflix_poly.adresse_idadresse_seq RESTART WITH 1; --parfois necessaire pour les tests
 
 INSERT INTO Netflix_Poly.Adresse(noRue, nomRue, ville, codePostal, Province, pays) VALUES ('444', 'Briggs Est', 'Longueuil','J4J1R7','Quebec', 'Canada');
 INSERT INTO Netflix_Poly.Adresse(noRue, nomRue, ville, codePostal, Province, pays) VALUES ('6889', '14e Avenue', 'Montreal','V1V2A4','Quebec', 'Canada');
@@ -30,17 +29,18 @@ INSERT INTO Netflix_Poly.Adresse(noRue, nomRue, ville, codePostal, Province, pay
 --Insertion de membres abonnes
 --ALTER SEQUENCE netflix_poly.utilisateur_uid_seq RESTART WITH 1; --parfois necessaire pour les tests
 
-INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('Olson Italis', 2, 'oitalis@gmail.com', true);
-INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('Jocelyn Dupenor', 1, 'jdupenor@gmail.com', true);
-INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('Gerline Antoine', 1, 'gantoine@gmail.com', false);
-INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('Marc-Olivier Dupenor', 1, 'm-odupenor@gmail.com', false);
-INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('Noslo Italis', 2, 'nosloitalis@gmail.com', false);	
-INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre) VALUES ('Priscille O. Italis', 2, 'prisci@gmail.com', false);						
+INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre, motDePasseCrypte) VALUES ('Olson Italis', 2, 'oitalis@gmail.com', true,'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre, motDePasseCrypte) VALUES ('Jocelyn Dupenor', 1, 'jdupenor@gmail.com', true,'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre, motDePasseCrypte) VALUES ('Gerline Antoine', 1, 'gantoine@gmail.com', false,'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre, motDePasseCrypte) VALUES ('Marc-Olivier Dupenor', 1, 'm-odupenor@gmail.com', false,'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre, motDePasseCrypte) VALUES ('Noslo Italis', 2, 'nosloitalis@gmail.com', false,'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre, motDePasseCrypte) VALUES ('Priscille O. Italis', 2, 'prisci@gmail.com', false,'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+INSERT INTO Netflix_Poly.Utilisateur(nom, idAdresse, courrier, membre, motDePasseCrypte) VALUES ('Charles Bouchard-Levasseur', 2, 'nature1996@polymtl.ca', true,'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
 
-	
+
 --Insertion donnees abonnement
 INSERT INTO Netflix_Poly.Membre(UID, prixAbonnement, dateDebut,dateEcheance) VALUES (1,  50.5, '2020-04-01','2021-03-31');
-INSERT INTO Netflix_Poly.Membre(UID, prixAbonnement, dateDebut,dateEcheance) VALUES (2,  60.5, '2020-04-01','2021-03-31');	
+INSERT INTO Netflix_Poly.Membre(UID, prixAbonnement, dateDebut,dateEcheance) VALUES (2,  60.5, '2020-04-01','2021-03-31');
 
 
 --Insertion de donnees non abonnes
@@ -58,28 +58,28 @@ INSERT INTO Netflix_Poly.CarteDeCredit(UID, numero, reseauDecarte, titulaire, da
 --Insertion dans Film
 --ALTER SEQUENCE netflix_poly.film_numero_seq RESTART WITH 1; --parfois necessaire pour les tests
 
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('The Matrix', 'SCI-FI/ACTION','1999-03-31',136);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('The Matrix Reloaded', 'SCI-FI/ACTION','2003-05-07',138);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('The Matrix Revolutions', 'SCI-FI/ACTION','2003-11-05',129);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('War Room', 'Christian drama','2015-08-28',120);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Overcomer', 'Christian drama','2019-08-23',115);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Who Framed Roger Rabbit', 'Live Action','1988-06-22',104);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Paris-Manhattan', 'Comedy','2012-07-18',77);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Irrational Man', 'Drama','2015-05-16',95);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Hannah and Her Sisters', 'Comedy','2015-05-16',95);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Annie Hall', 'Comedy','1977-04-20',93); 
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Coups de feu sur Broadway', 'Comedy','1994-04-20',98);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Lawrence of Arabia', 'historic drama','1962-12-10',180);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Becket', 'historic drama','1964-03-11',148);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('The Stunt Man', 'Comedy','1980-06-27',131);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('My Favorite Year', 'Comedy','1982-10-08',92);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Venus', 'Comedy','2006-09-02',95);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Reds', 'Drama','1981-12-04',108);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Bulworth', 'Comedy','1998-05-15',195);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Le Retour de Mary Poppins', 'Musical','2018-12-23',130);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Can You Ever Forgive Me?', 'Biographie','2018-09-01',106);
-INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree) VALUES ('Chicago', 'Comedy','2002-12-10',113);
- 
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('The Matrix', 'SCI-FI/ACTION','1999-03-31',136, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('The Matrix Reloaded', 'SCI-FI/ACTION','2003-05-07',138, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('The Matrix Revolutions', 'SCI-FI/ACTION','2003-11-05',129, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('War Room', 'Christian drama','2015-08-28',120, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Overcomer', 'Christian drama','2019-08-23',115, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Who Framed Roger Rabbit', 'Live Action','1988-06-22',104, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Paris-Manhattan', 'Comedy','2012-07-18',77, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Irrational Man', 'Drama','2015-05-16',95, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Hannah and Her Sisters', 'Comedy','2015-05-16',95, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Annie Hall', 'Comedy','1977-04-20',93, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Coups de feu sur Broadway', 'Comedy','1994-04-20',98, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Lawrence of Arabia', 'historic drama','1962-12-10',180, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Becket', 'historic drama','1964-03-11',148, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('The Stunt Man', 'Comedy','1980-06-27',131, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('My Favorite Year', 'Comedy','1982-10-08',92, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Venus', 'Comedy','2006-09-02',95, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Reds', 'Drama','1981-12-04',108, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Bulworth', 'Comedy','1998-05-15',195, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Le Retour de Mary Poppins', 'Musical','2018-12-23',130, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Can You Ever Forgive Me?', 'Biographie','2018-09-01',106, 'http://static.videogular.com/assets/videos/videogular.mp4');
+INSERT INTO Netflix_Poly.Film(titre, genre,dateProduction, duree, lien) VALUES ('Chicago', 'Comedy','2002-12-10',113, 'http://static.videogular.com/assets/videos/videogular.mp4');
+
 
 --  Insertion de DVD
 
@@ -145,15 +145,15 @@ INSERT INTO Netflix_Poly.Visionnement(noFilm, noCommande, dateVisionnement, dure
 -- Insertion de personnes
 --ALTER SEQUENCE personne_personneID_seq RESTART WITH 1;  --parfois necessaire pour les tests
 
-INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Keanu Charles Reeves', '1964-09-02', 'M','CANADA'); 
-INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Joel Silver', '1952-07-14', 'M','USA'); 
-INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Carrie-Anne Moss', '1967-08-21', 'F','CANADA'); 
-INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Woody Allen', '1935-12-01', 'M','USA'); 
-INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Alex Kendrick', '1970-06-11', 'M','USA'); 
+INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Keanu Charles Reeves', '1964-09-02', 'M','CANADA');
+INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Joel Silver', '1952-07-14', 'M','USA');
+INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Carrie-Anne Moss', '1967-08-21', 'F','CANADA');
+INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Woody Allen', '1935-12-01', 'M','USA');
+INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Alex Kendrick', '1970-06-11', 'M','USA');
 INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Peter Seamus O Toole', '1932-08-02', 'M','British');
-INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Henry Warren Beaty', '1937-03-30', 'M','USA'); 
+INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Henry Warren Beaty', '1937-03-30', 'M','USA');
 INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Robert Doyle Marshall Jr', '1960-10-17', 'M','USA');
-INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Marielle Heller', '1979-10-01', 'F','USA');  
+INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Marielle Heller', '1979-10-01', 'F','USA');
 INSERT INTO Netflix_Poly.Personne(nom, dateNaissance, sexe, nationalite) VALUES ('Diane Hall (Keaton)', '1946-01-05', 'F','USA');
 
 
@@ -198,7 +198,7 @@ CREATE TABLE Netflix_Poly.CeremonieOscars
     lieu             varchar(30) not null,
     maitre           varchar(30) not null,
     PRIMARY KEY (dateOscar)
-    
+
 );
 */
 
@@ -214,10 +214,10 @@ INSERT INTO Netflix_Poly.CeremonieOscars(dateOscar,lieu,maitre) VALUES ('1982-03
 INSERT INTO Netflix_Poly.CeremonieOscars(dateOscar,lieu,maitre) VALUES ('1999-03-21', 'Dorothy Chandler Pavilion - Los Angeles', 'Whoopi Goldberg');
 INSERT INTO Netflix_Poly.CeremonieOscars(dateOscar,lieu,maitre) VALUES ('2019-02-24', 'Théâtre Dolby de Los Angeles', 'Non determine');
 
-  
+
 --Insertion d'Oscars
 /*
-CREATE TABLE Netflix_Poly.Oscars   
+CREATE TABLE Netflix_Poly.Oscars
 (
     dateOscar     smallint,
     noFilm        smallint,
@@ -272,9 +272,3 @@ INSERT INTO Netflix_Poly.DVDFilm(noDVD, noFilm) VALUES (2, 4);
 INSERT INTO Netflix_Poly.DVDFilm(noDVD, noFilm) VALUES (2, 5);
 
 */
-
-
-
-
-
-

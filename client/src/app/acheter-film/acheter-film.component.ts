@@ -42,8 +42,9 @@ export class AcheterFilmComponent implements OnInit {
 
   public acheterFilm(): void {
     this.communicationService
-      .insertCommandVisionement(this.activeUser, this.filmID)
+      .insertCommandVisionement(this.filmID)
       .subscribe((observer) => {
+        // tslint:disable-next-line: no-console
         console.log(observer);
       });
     this.router.navigate(["ecouter/", this.filmID]);

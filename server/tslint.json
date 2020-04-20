@@ -7,32 +7,19 @@
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
-    ],
+    "comment-format": [true, "check-space"],
     "curly": true,
     "deprecation": {
       "severity": "warn"
     },
     "eofline": true,
     "forin": true,
-    "import-blacklist": [
-      true,
-      "rxjs",
-      "rxjs/Rx"
-    ],
+    "import-blacklist": [true, "rxjs", "rxjs/Rx"],
     "import-spacing": true,
-    "indent": [
-      true,
-      "spaces"
-    ],
+    "indent": [true, "spaces"],
     "interface-over-type-literal": true,
     "label-position": true,
-    "max-line-length": [
-      true,
-      140
-    ],
+    "max-line-length": [true, 140],
     "member-access": [
       true,
       "check-accessor",
@@ -52,6 +39,7 @@
     ],
     "no-arg": true,
     "no-bitwise": true,
+    "no-console": [true, "log"],
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-variable": true,
@@ -87,14 +75,8 @@
       }
     ],
     "radix": true,
-    "semicolon": [
-      true,
-      "always"
-    ],
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
+    "semicolon": [true, "always"],
+    "triple-equals": [true, "allow-null-check"],
     "typedef-whitespace": [
       true,
       {
@@ -120,10 +102,7 @@
       "check-separator",
       "check-type"
     ],
-    "array-type": [
-      true,
-      "array"
-    ],
+    "array-type": [true, "array"],
     "ordered-imports": [
       true,
       {
@@ -133,14 +112,8 @@
     ],
     "no-sparse-arrays": true,
     "no-irregular-whitespace": true,
-    "cyclomatic-complexity": [
-      true,
-      20
-    ],
-    "max-classes-per-file": [
-      true,
-      2
-    ],
+    "cyclomatic-complexity": [true, 20],
+    "max-classes-per-file": [true, 2],
     "no-unsafe-finally": true,
     "no-unused-variable": true,
     "align": [
@@ -156,10 +129,7 @@
     "no-magic-numbers": true,
     "only-arrow-functions": true,
     "adjacent-overload-signatures": true,
-    "max-file-line-count": [
-      true,
-      300
-    ],
+    "max-file-line-count": [true, 300],
     "no-duplicate-imports": true,
     "binary-expression-operand-order": true,
     "newline-before-return": true,
@@ -174,24 +144,16 @@
     "promise-function-async": true,
     "await-promise": true,
     "no-floating-promises": true,
-    "no-invalid-this": [
-      true,
-      "check-function-in-method"
-    ],
+    "no-invalid-this": [true, "check-function-in-method"],
     "no-return-await": true,
     "no-this-assignment": [
       true,
       {
-        "allowed-names": [
-          "^self$"
-        ],
+        "allowed-names": ["^self$"],
         "allow-destructuring": false
       }
     ],
-    "prefer-conditional-expression": [
-      true,
-      "check-else-if"
-    ],
+    "prefer-conditional-expression": [true, "check-else-if"],
     "switch-default": true,
     "typedef": [
       true,

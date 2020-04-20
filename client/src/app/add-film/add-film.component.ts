@@ -36,7 +36,6 @@ export class AddFilmComponent implements OnInit {
   public getFilms(): void {
     this.communicationService.getFilms().subscribe((films: Film[]) => {
       this.films = films;
-      console.log("Film loaded");
     });
   }
 
@@ -65,7 +64,6 @@ export class AddFilmComponent implements OnInit {
   }
 
   public confirmFilm(): void {
-    console.log(this.formulaire);
     if (this.formulaire.numero == null) {
       this.communicationService.insertFilm(this.formulaire).subscribe(() => {
         this.getFilms();
@@ -84,6 +82,7 @@ export class AddFilmComponent implements OnInit {
 
   public suprimerFilm(film: Film): void {
     this.communicationService.deleteFilm(film.numero).subscribe((observer) => {
+      // tslint:disable-next-line: no-console
       console.log(observer);
       this.getFilms();
     });

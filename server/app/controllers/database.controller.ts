@@ -51,7 +51,6 @@ export class DatabaseController {
     );
 
     router.get("/film", (req: Request, res: Response, next: NextFunction) => {
-      // Send the request to the service and send the response
       this.databaseService
         .getFilms()
         .then((result: pg.QueryResult) => {
@@ -298,7 +297,6 @@ export class DatabaseController {
     router.delete(
       "/film/:numero",
       (req: Request, res: Response, next: NextFunction) => {
-        console.log(req.params.numero);
         this.databaseService
           .deleteFilm(req.params.numero)
           .then((result: pg.QueryResult) => {

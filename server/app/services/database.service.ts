@@ -42,7 +42,6 @@ export class DatabaseService {
     return this.pool.query(`SELECT * FROM netflix_poly.${tableName};`);
   }
 
-  // Film
   public async getFilms(): Promise<pg.QueryResult> {
     return this.pool.query(`SELECT * FROM netflix_poly.film;`);
   }

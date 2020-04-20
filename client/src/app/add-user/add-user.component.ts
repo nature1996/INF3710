@@ -27,8 +27,8 @@ const RESETFORM2: Adresse = {
 const RESETFORM3: Membre = {
   UID: null,
   prixAbonement: 0,
-  dateDebut: "",
-  dateEcheance: "",
+  dateDebut: new Date().toLocaleDateString("en-CA"),
+  dateEcheance: new Date().toLocaleDateString("en-CA"),
 };
 
 @Component({
@@ -57,6 +57,7 @@ export class AddUserComponent implements OnInit {
     this.communicationService
       .insertUtilisateur(this.formulaire1, this.formulaire2, this.formulaire3)
       .subscribe((observer) => {
+        // tslint:disable-next-line: no-console
         console.log(observer);
       });
   }

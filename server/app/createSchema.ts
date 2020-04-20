@@ -1,4 +1,4 @@
-// tslint:disable: max-line-length
+// tslint:disable: max-line-length max-file-line-count
 export const schema: string = `
 SET search_path = Netflix_Poly;
 
@@ -248,7 +248,6 @@ CREATE OR REPLACE FUNCTION insererVisionnement(pnoFilm smallint, pUID smallint)
         return 1;
 	END;  $visio$ LANGUAGE plpgsql;
 
-    
 
 CREATE OR REPLACE FUNCTION insererUtilisateur(pNoRue varchar(20), pNomRue varchar(50), pville varchar(50), pCode varchar(6), pProvince varchar(36), pPays varchar(30), pMotDePasse varchar(256), pnom varchar(256), pcourrier varchar(256), pmembre boolean, pprixAbonement numeric(4,2), pdateDebut date, pdateEcheance date)
 	RETURNS integer AS

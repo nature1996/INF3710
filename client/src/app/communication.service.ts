@@ -2,25 +2,16 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 // tslint:disable-next-line:ordered-imports
-import {
-  concat,
-  observable,
-  of,
-  BehaviorSubject,
-  Observable,
-  Subject,
-} from "rxjs";
+import { BehaviorSubject, Observable, Subject, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 import { RoleActeur } from "../../../common/request/RoleActeur";
 import { Adresse } from "../../../common/tables/Adresse";
 import { Film } from "../../../common/tables/Film";
+import { Membre } from "../../../common/tables/Membre";
 import { Oscar } from "../../../common/tables/Oscar";
 import { Utilisateur } from "../../../common/tables/Utilisateur";
 import { Visionement } from "../../../common/tables/Visionement";
-
-import { tempUser } from "./temp-const";
-import { Membre } from "../../../common/tables/Membre";
 
 // tslint:disable: no-any
 
@@ -45,17 +36,13 @@ export class CommunicationService {
     this._listners.next(filterBy);
   }
 
-  // todo:
   public logIn(couriel: string, motDePasse: string): void {
-    new Observable<Utilisateur>((observer) => {
-      observer.next(
-        couriel === "nature1996@polymtl.ca" && motDePasse === "123456"
-          ? tempUser
-          : null
-      );
-    }).subscribe((observer) => {
-      this._activeUser.next(observer);
-    });
+    this.http
+      .post<Film[]>(this.BASE_URL + "/login", { couriel, motDePasse })
+      .pipe(catchError(this.handleError<Film[]>("getFilms")))
+      .subscribe((observer) => {
+        this._activeUser.next(observer);
+      });
   }
 
   public logOut(): void {
@@ -119,14 +106,17 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<number>("insertFilm")));
   }
 
-  // todo:
-  public insertCommandVisionement(
-    utilisateur: Utilisateur,
-    filmID: number
-  ): Observable<number> {
-    return new Observable<number>((observer) => {
-      observer.next(1);
-    });
+  public insertCommandVisionement(filmID: number): Observable<number> {
+    return this.http
+      .post<number>(this.BASE_URL + "/visionnement/insert", {
+        filmID,
+        UID: this._activeUser.getValue().UID,
+      })
+      .pipe(
+        catchError(
+          this.handleError<number>("insertUtilisateurCommandVisionement")
+        )
+      );
   }
 
   public modifierFilm(film: Film): Observable<number> {
@@ -147,12 +137,11 @@ export class CommunicationService {
       .pipe(catchError(this.handleError<number>("modifierVisionnement")));
   }
 
-  // todo:
-  /* public deleteFilm(filmID: number): Observable<any> {
+  public deleteFilm(filmID: number): Observable<any> {
     return this.http
-      .delete<number>(this.BASE_URL + "/film/modify", filmID)
-      .pipe(catchError(this.handleError<number>("modifierFilm")));
-  } */
+      .delete<number>(this.BASE_URL + "/film/" + filmID)
+      .pipe(catchError(this.handleError<number>("deleteFilm")));
+  }
 
   private handleError<T>(
     request: string,

@@ -47,13 +47,6 @@ export class AddFilmComponent implements OnInit {
     this.montrerAjout = !this.montrerAjout;
   }
 
-  public getAnnee(film: Film): string {
-    let annee: string = "";
-    annee += film.dateProduction;
-
-    return annee;
-  }
-
   public getPrix(film: Film): string {
     let prix: string = "";
     if (film.prix) {
@@ -77,7 +70,10 @@ export class AddFilmComponent implements OnInit {
 
   public modifierFilm(film: Film): void {
     this.montrerAjout = true;
-    this.formulaire = { ...film };
+    this.formulaire = {
+      ...film,
+      dateProduction: new Date(film.dateProduction).toLocaleDateString("en-CA"),
+    };
   }
 
   public suprimerFilm(film: Film): void {
@@ -94,5 +90,9 @@ export class AddFilmComponent implements OnInit {
       this.films.findIndex((value: Film) => {
         return value.numero === this.formulaire.numero;
       }) !== -1;
+  }
+
+  public getDate(date: string): string {
+    return new Date(date).toLocaleDateString("en-CA");
   }
 }

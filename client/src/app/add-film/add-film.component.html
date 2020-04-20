@@ -1,5 +1,5 @@
 <div style="text-align: left;">
-  <a routerLink="/admin">Retour a l'acceuil administrateur </a>
+  <a class="link" routerLink="/admin">Retour a l'acceuil administrateur </a>
 </div>
 <div>
   <div *ngIf="!montrerAjout">
@@ -100,7 +100,7 @@
         <th>Titre</th>
         <th>Genre</th>
         <th>Durée</th>
-        <th>Année</th>
+        <th>Sortie</th>
         <th>Prix</th>
         <th>Modifier</th>
         <th>Suprimer</th>
@@ -111,7 +111,7 @@
           <td>{{ film.titre }}</td>
           <td>{{ film.genre }}</td>
           <td>{{ film.duree }}</td>
-          <td>{{ getAnnee(film) }}</td>
+          <td>{{ getDate(film.dateProduction) }}</td>
           <td>{{ getPrix(film) }}</td>
           <td>
             <button (click)="modifierFilm(film)" style="color: green;">

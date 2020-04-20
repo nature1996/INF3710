@@ -28,3 +28,11 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.link {
+  color: #ff0000;
+  margin: 10pt;
+}
+.link:hover {
+  color: #00ff00;
+}

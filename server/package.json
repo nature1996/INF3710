@@ -40,7 +40,7 @@
   "dependencies": {
     "@types/crypto-js": "^3.1.44",
     "@types/pg": "^7.14.3",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "1.4.1",
     "cors": "2.8.4",
